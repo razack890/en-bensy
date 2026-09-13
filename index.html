@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samsaaram AI - Live English AI Teacher for Malayalam Speakers</title>
+  <meta name="description" content="Master spoken English with Teacher Maya. Real-time bilingual Malayalam-English feedback, voice conversation, interview practice, and grammar guidance.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#030712">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Samsaaram AI">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css?v=2026">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <button id="mobileMenuBtn" class="btn-icon-subtle mobile-menu-btn" title="Toggle Scenarios Menu">☰</button>
+        <div class="brand-logo-badge">🎙️</div>
+        <div class="brand-titles">
+          <h1>Samsaaram AI <span class="ml-font" style="font-size: 0.85rem; font-weight: 600; color: #a7f3d0;">സംസാരം</span></h1>
+          <div class="brand-sub">
+            <span class="status-dot"></span>
+            <span>Teacher Maya • Live</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Scenario Indicator / Quick Switcher (Desktop) -->
+      <div class="header-center-pill" id="scenarioSelectorBtn" title="Click to change practice topic">
+        <span id="activeScenarioIcon">🎯</span>
+        <span class="scenario-indicator-text" id="activeScenarioTitle">Any Subject / Topic</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">▼</span>
+      </div>
+
+      <!-- Right Header Actions (Streak, Accent, Settings) -->
+      <div class="header-actions">
+        <!-- Daily Speaking Streak Pill -->
+        <div class="streak-pill" id="streakPillBtn" style="cursor: pointer;" title="Click to view Daily Speaking Challenge & WhatsApp Card">
+          <span>🔥</span>
+          <span id="streakCount">Day 1</span>
+        </div>
+
+        <!-- Quick Accent Switcher Button -->
+        <button id="accentQuickBtn" class="btn-icon-subtle" title="Teacher Voice Accent: Click to change">
+          <span id="accentFlagIcon">🇮🇳</span>
+        </button>
+
+        <button id="helpTipsBtn" class="btn-icon-subtle" title="Malayalam English Tips & Common Mistakes">💡</button>
+        <button id="settingsBtn" class="btn-icon-subtle" title="Settings & AI Model">⚙️</button>
+        <button id="pwaInstallBtn" class="btn-pwa-badge" title="Install App to iPhone, Android & In-Car Dashboard">
+          <span class="pwa-icon">📲</span>
+          <span class="pwa-label">Install App</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Offline Mode Notification Banner -->
+    <div id="offlineStatusBar" class="offline-status-bar" style="display: none;">
+      <span class="offline-dot"></span>
+      <span id="offlineStatusText">📶 Offline Practice Mode Active — Local voice tutor & saved lessons ready!</span>
+    </div>
+
+    <!-- Sub-Header Feature Pills Bar: Smooth horizontal touch tray -->
+    <nav class="feature-pills-bar" id="featurePillsBar" aria-label="Feature shortcuts">
+      <!-- Any Subject Button -->
+      <button id="customSubjectBtn" class="btn-subject-glow" title="Ask about ANY subject you want to learn & speak">
+        <span>🎯</span> Any Subject
+      </button>
+
+      <!-- In-Car Drive Mode (CarPlay & Bluetooth Driving Companion) -->
+      <button id="carDriveModeBtn" class="btn-subject-glow btn-drive-glow" title="Open 100% Hands-Free In-Car Drive Mode">
+        <span>🚗</span> Drive Mode <span class="badge-car-live">LIVE</span>
+      </button>
+
+      <!-- Daily Streak, XP & Progress Dashboard Button -->
+      <button id="progressAnalyticsBtn" class="btn-subject-glow btn-analytics-glow" title="View Daily Streak, XP & Pronunciation Analytics">
+        <span>📊</span> My Progress <span class="header-streak-badge" id="headerStreakBadge">🔥 3d</span>
+      </button>
+
+      <!-- Snap & Learn AI Camera Vision Button -->
+      <button id="snapLearnBtn" class="btn-subject-glow btn-camera-glow" title="Snap & Learn: Point camera at any object to learn English">
+        <span>📸</span> Snap & Learn <span class="badge-camera-new">AI</span>
+      </button>
+
+      <!-- 2-Way Live Walkie-Talkie Interpreter Button -->
+      <button id="twoWayInterpreterBtn" class="btn-subject-glow btn-interpreter-glow" title="2-Way Live Walkie-Talkie Speech Interpreter for Travel & Doctor Visits">
+        <span>🗣️</span> 2-Way Interpreter
+      </button>
+
+      <!-- Live Google-style Bilingual Translator Button -->
+      <button id="translatorBtn" class="btn-subject-glow btn-translator-glow" title="Open English ⇄ Malayalam Live Translator">
+        <span>🔄</span> Translator <span class="ml-font" style="font-size: 0.72rem; opacity: 0.9;">(തർജ്ജമ)</span>
+      </button>
+
+      <!-- WhatsApp Voice-Note Mode Button -->
+      <button id="whatsappModeBtn" class="btn-subject-glow btn-whatsapp-glow" title="Practice English voice notes in WhatsApp style">
+        <span>📲</span> WhatsApp Mode
+      </button>
+
+      <!-- Shadowing Accent Player Button -->
+      <button id="shadowingBtn" class="btn-subject-glow btn-shadowing-glow" title="Practice Shadowing Technique">
+        <span>🎧</span> Shadowing
+      </button>
+
+      <!-- Smart Vocab Book Button -->
+      <button id="vocabBookBtn" class="btn-subject-glow btn-vocab-glow" title="Open Saved Phrases & Flashcards Book">
+        <span>📚</span> Vocab Book
+      </button>
+
+      <!-- AI Group Discussion Button -->
+      <button id="gdRoomBtn" class="btn-subject-glow btn-gd-glow" title="Join AI Group Discussion Room">
+        <span>👥</span> GD Room
+      </button>
+
+      <!-- Free Cloud Deployment Button -->
+      <button id="cloudDeployBtn" class="btn-subject-glow btn-deploy-glow" title="Deploy online for free">
+        <span>🌐</span> Free Deploy
+      </button>
+    </nav>
+
+    <!-- Main Stage -->
+    <main class="main-stage">
+      <!-- Drawer Backdrop for mobile -->
+      <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+      <!-- Left Sidebar: Tutor Avatar & Scenarios -->
+      <aside class="left-sidebar" id="sidebarPanel">
+        <!-- Tutor Card -->
+        <div class="teacher-hero-card" id="teacherCard">
+          <div class="avatar-halo-wrapper">
+            <div class="avatar-circle">
+              <div class="avatar-inner-img">👩‍🏫</div>
+            </div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring" style="animation-delay: 0.5s;"></div>
+          </div>
+          <h2 class="teacher-name">Teacher Maya</h2>
+          <div class="teacher-title ml-font">മായ മിസ്സ് (English Mentor)</div>
+          <div class="teacher-status-badge" id="tutorStatusText">Ready to Talk</div>
+
+          <!-- Dynamic Audio Visualizer Canvas -->
+          <div class="visualizer-box">
+            <canvas id="audioVisualizerCanvas" width="280" height="48"></canvas>
+          </div>
+        </div>
+
+        <!-- View Mode Switch -->
+        <div class="view-mode-tabs">
+          <button class="mode-tab-btn active" id="tabChatMode">
+            <span>💬</span> Classroom Chat
+          </button>
+          <button class="mode-tab-btn" id="tabLiveCallMode">
+            <span>📞</span> Live Voice Call
+          </button>
+        </div>
+
+        <!-- Scenarios Curriculum -->
+        <div class="sidebar-section-title">
+          <span>Practice Topics</span>
+          <span style="font-size: 0.75rem; color: var(--emerald-400);">6 Topics</span>
+        </div>
+        <div class="scenarios-list" id="scenariosContainer">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Malayali Common Mistake Quick Tip -->
+        <div class="malayali-quick-tip-card">
+          <div class="quick-tip-header">
+            <span>💡</span> Pro Malayali English Tip
+          </div>
+          <div class="quick-tip-body" id="dailyMalayalamTip">
+            Avoid saying "Myself Rahul". Say "I am Rahul" or "My name is Rahul". In English, myself is never used as the subject!
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Panel: Conversation -->
+      <section class="conversation-panel">
+        
+        <!-- View 1: Classroom Mode (Messages feed) -->
+        <div class="chat-scroll-area" id="chatFeed">
+          <!-- Initial Welcome Message from Maya -->
+          <div class="message-row tutor-message">
+            <div class="msg-avatar">👩‍🏫</div>
+            <div class="msg-content-wrapper">
+              <div class="msg-bubble">
+                Hello! I am Teacher Maya, your personal English speaking partner. Don't worry about making mistakes—feel completely free to talk with me. സുഖമാണോ? How can I help you today?
+                <div class="msg-audio-actions">
+                  <button class="btn-audio-listen" onclick="speakCurrentText(this.closest('.msg-bubble').childNodes[0].nodeValue)">
+                    <span>🔊</span> Listen
+                  </button>
+                  <button class="btn-slow-replay" onclick="speakCurrentText(this.closest('.msg-bubble').childNodes[0].nodeValue, 0.75)">
+                    <span>🐢</span> Slow (0.75x)
+                  </button>
+                </div>
+              </div>
+              <div class="ml-translation-card">
+                <div class="ml-translation-header">
+                  <span>മലയാളം അർത്ഥം:</span>
+                </div>
+                <div class="ml-translation-text">
+                  ഹലോ! ഞാൻ നിങ്ങളുടെ പേഴ്സണൽ ഇംഗ്ലീഷ് സ്പീക്കിംഗ് പാർട്ണർ മായ മിസ്സ് ആണ്. തെറ്റുകൾ വരുമോ എന്ന് ഒട്ടും പേടിക്കണ്ട—എന്നോട് ധൈര്യമായി സംസാരിച്ചു തുടങ്ങൂ. സുഖമാണോ?
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: Live Voice Call Mode (FaceTime / WhatsApp AI Call Simulation) -->
+        <div class="live-call-container" id="liveCallContainer">
+          <!-- Top Call Status Bar -->
+          <div class="call-header-status">
+            <div class="call-security-badge">
+              <span>🔒</span> End-to-End Live Voice • HD
+            </div>
+            <div class="call-timer-pill" id="callTimerPill">
+              <span class="call-recording-dot"></span>
+              <span id="callDurationText">00:00</span>
+            </div>
+            <div class="call-quality-indicator">
+              <span>📶</span> <span id="callAiEngineBadge">Gemini AI Live</span>
+            </div>
+          </div>
+
+          <!-- Central Avatar & Pulsing Voice Stage -->
+          <div class="call-stage-center">
+            <div class="call-avatar-stage" id="callAvatarStage">
+              <div class="call-avatar-halo" id="callAvatarHalo">
+                <div class="call-avatar-circle" id="callAvatarBig">
+                  👩‍🏫
+                </div>
+                <!-- Concentric Audio Voice Waves -->
+                <div class="call-wave-ring wave-1"></div>
+                <div class="call-wave-ring wave-2"></div>
+                <div class="call-wave-ring wave-3"></div>
+              </div>
+            </div>
+
+            <div class="call-caller-info">
+              <h2 class="call-teacher-name">Teacher Maya</h2>
+              <div class="call-teacher-sub ml-font">മായ മിസ്സ് (Live English Mentor)</div>
+              <div class="call-state-pill" id="callStateBadge">
+                <span class="state-icon" id="callStateIcon">🎙️</span>
+                <span id="callStateText">Ready — Speak Anytime</span>
+              </div>
+            </div>
+
+            <!-- Live Call Captions Box (English + Malayalam translation) -->
+            <div class="call-captions-card" id="callCaptionsCard">
+              <div class="call-caption-en" id="callLiveCaptionsEn">
+                "Namaskaram! I am Teacher Maya. Speak with me freely in English or Malayalam."
+              </div>
+              <div class="call-caption-ml ml-font" id="callLiveCaptionsMl">
+                നമസ്കാരം! ഞാൻ മായ മിസ്സ്. എന്നോട് ധൈര്യമായി സംസാരിക്കൂ.
+              </div>
+              
+              <!-- Replay & Pronunciation Quick Tool -->
+              <div class="call-caption-tools">
+                <button type="button" class="btn-caption-tool" id="btnCallReplay" title="Listen again">
+                  <span>🔊</span> Replay
+                </button>
+                <button type="button" class="btn-caption-tool" id="btnCallSlowReplay" title="Slow repeat (0.75x)">
+                  <span>🐢</span> Slow (0.75x)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Phone Call Control Dock (Real WhatsApp / FaceTime Buttons) -->
+          <div class="call-control-dock">
+            <!-- Mute Mic Button -->
+            <button type="button" class="btn-call-action" id="btnCallMute" title="Mute Microphone">
+              <div class="call-action-icon" id="callMuteIcon">🎙️</div>
+              <span class="call-action-label" id="callMuteLabel">Mute</span>
+            </button>
+
+            <!-- Captions Subtitles Toggle -->
+            <button type="button" class="btn-call-action active" id="btnCallSubtitles" title="Toggle Live Malayalam Subtitles">
+              <div class="call-action-icon">💬</div>
+              <span class="call-action-label">Subtitles</span>
+            </button>
+
+            <!-- Speech Speed Toggle (1.0x / 0.8x) -->
+            <button type="button" class="btn-call-action" id="btnCallSpeed" title="Teacher Speech Speed">
+              <div class="call-action-icon" id="callSpeedIcon">⚡</div>
+              <span class="call-action-label" id="callSpeedLabel">0.9x</span>
+            </button>
+
+            <!-- Malayalam Hint / Ask Button -->
+            <button type="button" class="btn-call-action" id="btnCallMalayalamHint" title="Ask Maya in Malayalam">
+              <div class="call-action-icon ml-font" style="font-weight: 800; color: #a7f3d0;">മ</div>
+              <span class="call-action-label">Malayalam</span>
+            </button>
+
+            <!-- Car Drive Mode Shortcut -->
+            <button type="button" class="btn-call-action" id="btnCallCarMode" title="Switch to In-Car Drive Mode">
+              <div class="call-action-icon">🚗</div>
+              <span class="call-action-label">Car Mode</span>
+            </button>
+
+            <!-- End Call / Hang Up Button -->
+            <button type="button" class="btn-call-end" id="btnCallEnd" title="End Voice Call">
+              <div class="call-end-icon">📞</div>
+              <span class="call-action-label" style="color: #f87171;">End Call</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Reply Suggestions -->
+        <div class="quick-replies-tray" id="quickRepliesTray">
+          <button class="quick-reply-pill" onclick="sendQuickReply('I am doing great, how are you?')">
+            <span>✨</span> I am doing great, how are you?
+          </button>
+          <button class="quick-reply-pill" onclick="sendQuickReply('I want to improve my spoken English.')">
+            <span>✨</span> I want to improve my spoken English.
+          </button>
+          <button class="quick-reply-pill" onclick="sendQuickReply('സുഖമായിരിക്കുന്നു, താങ്ക് യു!')">
+            <span>✨</span> സുഖമായിരിക്കുന്നു, താങ്ക് യു!
+          </button>
+        </div>
+
+        <!-- Bottom Input & Voice Controls -->
+        <div class="bottom-input-container">
+          <div class="bottom-input-inner">
+            <!-- Micro Accessories Row: Continuous Mode Toggle + Ask in Malayalam -->
+            <div class="input-micro-toolbar">
+              <button type="button" class="btn-handsfree-pill active" id="handsFreeToggleBtn" title="Continuous conversation without pressing mic every time">
+                <span class="handsfree-dot"></span>
+                <span id="handsFreeLabel">Continuous: ON</span>
+              </button>
+              <button class="btn-ask-malayalam-pill" id="askMalayalamBtn" title="Ask Teacher Maya how to say this in English">
+                <span class="ml-badge-icon">മ</span>
+                <span>Ask in Malayalam</span>
+              </button>
+            </div>
+
+            <!-- Main Input Row: Mic + Expandable Chat Form -->
+            <div class="input-primary-row">
+              <!-- Main Microphone Voice Button -->
+              <button class="btn-mic-main" id="micToggleBtn" title="Click to Speak / Live Voice">
+                <span id="micIcon">🎙️</span>
+                <div class="mic-tooltip" id="micTooltip">Click to Speak</div>
+              </button>
+
+              <!-- Text Input Form -->
+              <form class="input-box-wrapper" id="chatInputForm">
+                <input 
+                  type="text" 
+                  class="chat-input" 
+                  id="chatInputField" 
+                  placeholder="Speak or type in English or മലയാളം..." 
+                  autocomplete="off"
+                />
+                <button type="submit" class="btn-send" id="sendMessageBtn" title="Send message">
+                  ➤
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section> <!-- /.conversation-panel -->
+    </main>
+  </div> <!-- /.app-wrapper -->
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Tutor Settings & AI Engine</h3>
+          <button class="btn-icon-subtle" id="closeSettingsBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label for="geminiApiKeyInput">Google Gemini API Key (Optional)</label>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: #34d399; font-size: 0.78rem; text-decoration: none; font-weight: 600;">🔑 Get Free API Key ↗</a>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <input 
+                type="password" 
+                id="geminiApiKeyInput" 
+                placeholder="Paste AI Studio API key (AIzaSy...)" 
+                style="flex: 1;"
+              />
+              <button type="button" id="testGeminiKeyBtn" class="btn-secondary" style="padding: 8px 14px; font-size: 0.8rem; white-space: nowrap;">
+                ⚡ Test Key
+              </button>
+            </div>
+            <div id="geminiKeyTestStatus" style="font-size: 0.78rem; min-height: 18px; margin-top: 4px;"></div>
+            <span class="form-note">
+              Leave empty for the built-in offline engine (zero setup). When provided, Teacher Maya connects directly to Google Gemini Flash for deep bilingual conversational intelligence.
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="geminiModelSelect">Gemini AI Model</label>
+            <select id="geminiModelSelect">
+              <option value="gemini-2.0-flash" selected>Gemini 2.0 Flash (Fastest, Real-Time Speech) 🚀</option>
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash (Balanced, Lightweight)</option>
+              <option value="gemini-1.5-pro">Gemini 1.5 Pro (Deep Nuance & Advanced Vocabulary)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="learnerLevelSelect">Your English Level</label>
+            <select id="learnerLevelSelect">
+              <option value="beginner">Beginner (ലളിതമായ വാക്കുകൾ & കൂടുതൽ മലയാളം വിശദീകരണം)</option>
+              <option value="intermediate" selected>Intermediate (ദിവസേനയുള്ള സംഭാഷണം & ജോലി ആവശ്യങ്ങൾക്ക്)</option>
+              <option value="advanced">Advanced (ഫ്ലൂവൻസി, ഇന്റർനാഷണൽ ആക്സെന്റ് & മീറ്റിംഗുകൾ)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="voiceAccentSelect">Teacher Voice Accent</label>
+            <select id="voiceAccentSelect">
+              <option value="en-IN">Indian English (Natural & easy to understand)</option>
+              <option value="en-US">US American Accent</option>
+              <option value="en-GB">British English Accent</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="speechRateSlider">Speech Speed: <span id="speechRateLabel">0.9x</span></label>
+            <input type="range" id="speechRateSlider" min="0.6" max="1.3" step="0.1" value="0.9" style="accent-color: var(--emerald-500);">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="cancelSettingsBtn">Close</button>
+          <button class="btn-primary" id="saveSettingsBtn">Save Preferences</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Malayali English Tips Modal -->
+    <div class="modal-overlay" id="tipsModal">
+      <div class="modal-card" style="max-width: 600px;">
+        <div class="modal-header">
+          <h3>Malayali Common English Pitfalls & Fixes</h3>
+          <button class="btn-icon-subtle" id="closeTipsBtn">✕</button>
+        </div>
+        <div class="modal-body" style="max-height: 480px; overflow-y: auto;">
+          <div class="grammar-fix-card" style="margin-top: 0; background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
+            <div class="grammar-fix-title" style="color: #6ee7b7;">1. "Yesterday only / Now only"</div>
+            <div class="correction-row">
+              <div style="color: #fca5a5;">❌ Don't say: "I reached yesterday only."</div>
+              <div class="corrected-better">✅ Say: "I reached just yesterday." or "I arrived yesterday."</div>
+              <div class="correction-explanation">This happens because in Malayalam we add '-ആണ്' ('ഇന്നലെയാണ്'). In English, use 'just' or leave out 'only'.</div>
+            </div>
+          </div>
+
+          <div class="grammar-fix-card" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
+            <div class="grammar-fix-title" style="color: #6ee7b7;">2. "I have a doubt"</div>
+            <div class="correction-row">
+              <div style="color: #fca5a5;">❌ Don't say: "Teacher, I have a doubt."</div>
+              <div class="corrected-better">✅ Say: "Teacher, I have a question." or "Could you clarify this?"</div>
+              <div class="correction-explanation">'Doubt' implies suspicion or disbelief. For learning, always use 'question'.</div>
+            </div>
+          </div>
+
+          <div class="grammar-fix-card" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
+            <div class="grammar-fix-title" style="color: #6ee7b7;">3. "Myself Rahul"</div>
+            <div class="correction-row">
+              <div style="color: #fca5a5;">❌ Don't say: "Myself Rahul from Kochi."</div>
+              <div class="corrected-better">✅ Say: "I am Rahul from Kochi." or "My name is Rahul."</div>
+              <div class="correction-explanation">Reflexive pronouns like 'Myself' cannot stand as the subject of a sentence.</div>
+            </div>
+          </div>
+
+          <div class="grammar-fix-card" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
+            <div class="grammar-fix-title" style="color: #6ee7b7;">4. "He didn't came"</div>
+            <div class="correction-row">
+              <div style="color: #fca5a5;">❌ Don't say: "He didn't came yesterday."</div>
+              <div class="corrected-better">✅ Say: "He didn't come yesterday."</div>
+              <div class="correction-explanation">Once you use 'did' or 'didn't', the main verb must always be in base form ('come', not 'came').</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" id="gotItTipsBtn">Got it! Let's Practice</button>
+        </div>
+      </div>
+    <!-- Custom Subject Modal -->
+    <div class="modal-overlay" id="customSubjectModal">
+      <div class="modal-card" style="max-width: 560px;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>🎯</span> Ask About Any Subject
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: var(--emerald-400);">ഏത് വിഷയവും ചോദിക്കാം, ഇംഗ്ലീഷിൽ സംസാരിച്ചു പഠിക്കാം</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeCustomSubjectBtn">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="customSubjectInput">What topic would you like to discuss today?</label>
+            <input 
+              type="text" 
+              id="customSubjectInput" 
+              placeholder="e.g. Artificial Intelligence, Football, Space, Cooking, Electric Cars..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div>
+            <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; display: block;">
+              Popular Subject Ideas (ക്ലിക്ക് ചെയ്ത് തുടങ്ങാം):
+            </label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Artificial Intelligence & Tech')">🤖 AI & Tech</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Football & Sports (Messi & Ronaldo)')">⚽ Football & Sports</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Space Exploration & Universe')">🚀 Space & Universe</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Health, Food & Nutrition')">🥗 Health & Food</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Business, Startups & Money')">💼 Business & Money</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Cinema, Acting & Movies')">🎬 Cinema & Music</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Kerala History & Culture')">🌴 Kerala Culture</button>
+              <button type="button" class="subject-quick-tag" onclick="selectSubjectTag('Electric Vehicles & Future')">⚡ Electric Cars</button>
+            </div>
+          </div>
+
+          <div class="malayali-quick-tip-card" style="margin-top: 10px;">
+            <div class="quick-tip-header">
+              <span>💡</span> How Maya teaches any subject:
+            </div>
+            <div class="quick-tip-body">
+              1. Explains the subject in simple spoken English.<br>
+              2. Teaches key technical words with Malayalam meanings.<br>
+              3. Asks you an interactive question to practice speaking English about it!
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="cancelCustomSubjectBtn">Cancel</button>
+          <button class="btn-primary" id="startCustomSubjectBtn">Start Discussion 🚀</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Group Discussion (GD) Room Modal -->
+    <div class="modal-overlay" id="gdModal">
+      <div class="modal-card" style="max-width: 720px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>👥</span> AI Group Discussion (GD) Room
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #a5b4fc;">ക്യാമ്പസ് പ്ലേസ്‌മെന്റ് & MNC ജോബ് ഇന്റർവ്യൂ GD പരിശീലനം</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeGdBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 14px; max-height: 70vh; overflow-y: auto;">
+          <!-- Topic Selector -->
+          <div class="form-group">
+            <label for="gdTopicSelect">Select GD Topic:</label>
+            <select id="gdTopicSelect">
+              <option value="ai_jobs">Will AI Replace Human Jobs or Create New Careers?</option>
+              <option value="remote_work">Work From Home vs Returning to Office</option>
+              <option value="abroad_vs_india">Higher Studies & Careers Abroad vs Building Career in India</option>
+            </select>
+          </div>
+
+          <!-- 4 Active Participants -->
+          <div class="gd-participants-bar">
+            <div class="gd-participant-badge active" id="badgeMaya">
+              <div class="gd-avatar-dot">👩‍🏫</div>
+              <div class="gd-user-meta">
+                <div class="gd-user-name">Maya</div>
+                <div class="gd-user-role">Moderator</div>
+              </div>
+            </div>
+            <div class="gd-participant-badge" id="badgeArjun">
+              <div class="gd-avatar-dot">👨‍💻</div>
+              <div class="gd-user-meta">
+                <div class="gd-user-name">Arjun</div>
+                <div class="gd-user-role">Data / Tech</div>
+              </div>
+            </div>
+            <div class="gd-participant-badge" id="badgeSneha">
+              <div class="gd-avatar-dot">👩‍💼</div>
+              <div class="gd-user-meta">
+                <div class="gd-user-name">Sneha</div>
+                <div class="gd-user-role">Strategy</div>
+              </div>
+            </div>
+            <div class="gd-participant-badge" id="badgeUser">
+              <div class="gd-avatar-dot">👤</div>
+              <div class="gd-user-meta">
+                <div class="gd-user-name">You</div>
+                <div class="gd-user-role">Participant</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GD Transcript Feed -->
+          <div class="gd-feed-box" id="gdFeedBox">
+            <!-- Populated by gdRoom.js -->
+          </div>
+
+          <!-- Polite GD Phrase Suggestions -->
+          <div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #a5b4fc; margin-bottom: 6px; display: block;">
+              Polite Interruption & Entry Phrases (ക്ലിക്ക് ചെയ്ത് പറയാം):
+            </span>
+            <div class="quick-replies-tray" id="gdQuickPhrases" style="padding: 0; margin-bottom: 10px;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: space-between;">
+          <button class="btn-secondary" id="nextTurnBtn">Next Speaker Turn ⏭️</button>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-primary" id="userSpeakGdBtn">🎙️ Speak Your Turn</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily 2-Minute Speaking Challenge & WhatsApp Share Modal -->
+    <div class="modal-overlay" id="dailyChallengeModal">
+      <div class="modal-card" style="max-width: 620px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>🏆</span> Daily 2-Minute Speaking Challenge
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #fbbf24;">ദിവസേനയുള്ള സ്പീക്കിംഗ് മിഷൻ & വാട്സാപ്പ് കാർഡ്</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeDailyChallengeBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 16px; text-align: center;">
+          <div class="challenge-mission-card">
+            <div style="font-size: 0.8rem; font-weight: 700; color: #fbbf24; text-transform: uppercase;">
+              Day <span id="challengeDayNum">1</span> of 30
+            </div>
+            <h4 style="font-size: 1.2rem; color: #f8fafc; margin: 4px 0;" id="challengeTitleText">Introduce Yourself Like a Pro</h4>
+            <p style="font-size: 0.85rem; color: #94a3b8;" id="challengeTargetText">
+              Speak for 60-90 seconds without saying 'Myself Rahul'. Use 'I am' or 'My name is'.
+            </p>
+          </div>
+
+          <!-- WhatsApp Graphic Canvas -->
+          <div style="display: flex; justify-content: center; margin: 10px 0;">
+            <canvas id="shareCardCanvas" width="600" height="600" style="max-width: 100%; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></canvas>
+          </div>
+
+          <!-- Challenge Actions -->
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-primary" id="shareWhatsAppBtn" style="background: linear-gradient(135deg, #25D366, #128C7E);">
+              <span>📲</span> Share to WhatsApp Status
+            </button>
+            <button class="btn-secondary" id="downloadCardBtn">
+              <span>⬇️</span> Download Card Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Accent Switcher Modal -->
+    <div class="modal-overlay" id="accentModal">
+      <div class="modal-card" style="max-width: 440px;">
+        <div class="modal-header">
+          <h3>Choose Teacher Accent</h3>
+          <button class="btn-icon-subtle" id="closeAccentModalBtn">✕</button>
+        </div>
+        <div class="modal-body" style="gap: 10px;">
+          <button class="accent-option-item selected" onclick="switchAccent('en-IN', '🇮🇳', 'Indian English')">
+            <span style="font-size: 26px;">🇮🇳</span>
+            <div style="text-align: left;">
+              <div style="font-weight: 700; color: #f8fafc;">Indian English (Natural)</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">Warm, Kerala-friendly pronunciation</div>
+            </div>
+          </button>
+
+          <button class="accent-option-item" onclick="switchAccent('en-US', '🇺🇸', 'US American English')">
+            <span style="font-size: 26px;">🇺🇸</span>
+            <div style="text-align: left;">
+              <div style="font-weight: 700; color: #f8fafc;">US American English</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">For Tech, MNCs & International Clients</div>
+            </div>
+          </button>
+
+          <button class="accent-option-item" onclick="switchAccent('en-GB', '🇬🇧', 'British English')">
+            <span style="font-size: 26px;">🇬🇧</span>
+            <div style="text-align: left;">
+              <div style="font-weight: 700; color: #f8fafc;">British English (UK)</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">For IELTS, OET, and UK Nursing exams</div>
+            </div>
+          </button>
+
+          <button class="accent-option-item" onclick="switchAccent('en-IN', '🇦🇪', 'Gulf / Middle East English')">
+            <span style="font-size: 26px;">🇦🇪</span>
+            <div style="text-align: left;">
+              <div style="font-weight: 700; color: #f8fafc;">Gulf / Middle East English</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">For Dubai, Qatar & Saudi workplace</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Bilingual Translator Modal (Like Google Translate) -->
+    <div class="modal-overlay" id="translatorModal">
+      <div class="modal-card" style="max-width: 680px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>🔄</span> Live English ⇄ Malayalam Translator
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #93c5fd;">ഗൂഗിൾ ട്രാൻസ്ലേറ്റർ പോലെ തത്സമയം വിവർത്തനം ചെയ്യാം & കേട്ടുപഠിക്കാം</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeTranslatorBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 16px;">
+          <!-- Language Bar with Swap Button -->
+          <div class="translator-lang-bar">
+            <span class="lang-label active" id="sourceLangLabel">English (ഇംഗ്ലീഷ്)</span>
+            <button type="button" class="btn-swap-lang" id="swapLangBtn" title="Swap Languages (ഭാഷ മാറ്റുക)">
+              ⇄
+            </button>
+            <span class="lang-label active" id="targetLangLabel">Malayalam (മലയാളം)</span>
+          </div>
+
+          <!-- Input Text Box -->
+          <div class="translator-box">
+            <textarea 
+              id="translatorInput" 
+              rows="3" 
+              placeholder="Type or speak in English (or Malayalam / Manglish)..."
+              class="translator-textarea"
+            ></textarea>
+            <div class="translator-box-controls">
+              <div style="display: flex; gap: 6px;">
+                <button type="button" class="btn-icon-subtle" id="translatorMicBtn" title="Speak into microphone">
+                  <span>🎙️</span>
+                </button>
+                <button type="button" class="btn-icon-subtle" id="clearTranslatorInputBtn" title="Clear text">
+                  <span>✕</span>
+                </button>
+              </div>
+              <button type="button" class="btn-primary" id="doTranslateBtn" style="padding: 6px 16px;">
+                Translate ➔
+              </button>
+            </div>
+          </div>
+
+          <!-- Output Translated Box -->
+          <div class="translator-output-card">
+            <div class="translator-output-header">
+              <span style="font-weight: 700; font-size: 0.82rem; color: #93c5fd;" id="translationEngineBadge">Translated Output:</span>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" class="btn-audio-listen" id="listenTranslationBtn" title="Listen to translation">
+                  <span>🔊</span> Listen
+                </button>
+                <button type="button" class="btn-slow-replay" id="copyTranslationBtn" title="Copy text">
+                  <span>📋</span> Copy
+                </button>
+              </div>
+            </div>
+            <div class="translator-output-text" id="translatorOutputText">
+              ഇവിടെ വിവർത്തനം തത്സമയം ലഭ്യമാകും...
+            </div>
+          </div>
+
+          <!-- Practice with Maya Prompt -->
+          <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); padding: 10px 14px; border-radius: var(--radius-md);">
+            <div style="font-size: 0.82rem; color: #a7f3d0;">
+              💡 <strong>Want to practice saying this?</strong> Maya can coach you!
+            </div>
+            <button type="button" class="btn-primary" id="practiceWithMayaBtn" style="font-size: 0.8rem; padding: 6px 12px;">
+              Practice with Maya 👩‍🏫
+            </button>
+          </div>
+
+          <!-- Quick Phrases -->
+          <div>
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block;">
+              Daily Quick Phrases (ക്ലിക്ക് ചെയ്ത് തർജ്ജമ ചെയ്യാം):
+            </span>
+            <div class="quick-replies-tray" style="padding: 0;">
+              <button type="button" class="quick-reply-pill" onclick="quickTranslatePhrase('Where is the nearest railway station?')">Where is the nearest railway station?</button>
+              <button type="button" class="quick-reply-pill" onclick="quickTranslatePhrase('How much does this cost?')">How much does this cost?</button>
+              <button type="button" class="quick-reply-pill" onclick="quickTranslatePhrase('I won\'t be able to come tomorrow.')">I won't be able to come tomorrow.</button>
+              <button type="button" class="quick-reply-pill" onclick="quickTranslatePhrase('Please call me back later.')">Please call me back later.</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WhatsApp Voice-Note Mode Modal -->
+    <div class="modal-overlay" id="whatsappModal">
+      <div class="modal-card whatsapp-theme-card" style="max-width: 580px; width: 95%; background: #0b141a; border: 1px solid #1f2c34;">
+        <div class="whatsapp-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="whatsapp-avatar">👩‍🏫</div>
+            <div>
+              <div style="font-weight: 700; color: #e9edef; font-size: 1rem;">Teacher Maya</div>
+              <div style="font-size: 0.75rem; color: #25d366; display: flex; align-items: center; gap: 4px;">
+                <span class="online-dot"></span> online • Voice Tutor
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button class="wa-speed-pill" id="waSpeedBtn" title="Change Voice Playback Speed">1.0x</button>
+            <button class="btn-icon-subtle" id="closeWhatsAppBtn" style="color: #8696a0;">✕</button>
+          </div>
+        </div>
+
+        <div class="whatsapp-body">
+          <div class="whatsapp-info-banner">
+            <span>🔒</span> വാട്സാപ്പിൽ സുഹൃത്തുക്കളോട് സംസാരിക്കുന്നതുപോലെ മായ മിസ്സിനോട് വോയ്‌സ് നോട്ടുകൾ അയച്ച് ശീലിക്കാം.
+          </div>
+
+          <!-- WhatsApp Voice Feed -->
+          <div class="whatsapp-feed" id="whatsappFeed">
+            <!-- Populated dynamically -->
+          </div>
+
+          <!-- Quick WhatsApp Topics -->
+          <div class="wa-quick-tray" id="waQuickTopics">
+            <span style="font-size: 0.72rem; color: #8696a0; display: block; margin-bottom: 4px;">Quick Voice Note Topics:</span>
+            <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;">
+              <button class="wa-quick-chip" onclick="quickWhatsAppTopic('Tell me about your favorite food in Kerala.')">🍲 Favorite Food</button>
+              <button class="wa-quick-chip" onclick="quickWhatsAppTopic('What are your plans for this weekend?')">🏖️ Weekend Plans</button>
+              <button class="wa-quick-chip" onclick="quickWhatsAppTopic('Tell me about your job or college studies.')">💼 Job / Studies</button>
+            </div>
+          </div>
+
+          <!-- Voice Recording Tray -->
+          <div class="whatsapp-footer">
+            <div class="wa-record-status" id="waRecordStatus">
+              <span class="wa-rec-indicator" id="waRecIndicator"></span>
+              <span id="waTimerDisplay">0:00</span>
+              <span id="waStatusHint" style="font-size: 0.75rem; color: #8696a0;">Tap mic to speak</span>
+            </div>
+            <button class="wa-mic-btn" id="waRecordBtn" title="Tap to record voice note">
+              <span id="waMicIcon">🎙️</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shadowing Accent Player Modal -->
+    <div class="modal-overlay" id="shadowingModal">
+      <div class="modal-card" style="max-width: 680px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>🎧</span> "Shadowing" Accent & Fluency Player
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #f472b6;">കേൾക്കുക ➔ കൂടെപ്പറയുക ➔ ഉച്ചാരണം തിരുത്തുക</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeShadowingBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 16px;">
+          <!-- Drill Selector -->
+          <div class="form-group">
+            <label for="shadowingDrillSelect">Choose Practice Drill:</label>
+            <select id="shadowingDrillSelect">
+              <option value="0">1. P vs F & V vs W Traps (Kerala Accent Drills)</option>
+              <option value="1">2. Sharing Your Opinion Politely (Office Meetings)</option>
+              <option value="2">3. Ordering Coffee & Asking Questions (Travel English)</option>
+              <option value="3">4. Explaining Your Background (Job Interview)</option>
+              <option value="4">5. Natural Spoken English (Daily Expression)</option>
+            </select>
+          </div>
+
+          <!-- Sentence Display Card -->
+          <div class="shadowing-card">
+            <div class="shadowing-badge" id="shadowingCategoryBadge">Kerala Accent Traps</div>
+            <div class="shadowing-target-text" id="shadowingTargetText">
+              "We should focus on specific professional values."
+            </div>
+            <div class="shadowing-target-ml" id="shadowingTargetMl">
+              നമ്മൾ കൃത്യമായ തൊഴിൽപരമായ മൂല്യങ്ങളിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കണം.
+            </div>
+            <div class="shadowing-phonetic-pill" id="shadowingPhoneticPill">
+              🎯 Focus: <span>Focus (ഫോക്കസ് - not പോക്കസ്), Specific (സ്പെസിഫിക്)</span>
+            </div>
+          </div>
+
+          <!-- Controls & 3-2-1 Countdown -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 8px 0;">
+            <div id="shadowingCountdown" class="shadowing-countdown" style="display: none;">3</div>
+
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+              <button class="btn-secondary" id="listenShadowingBtn" style="padding: 10px 18px; font-weight: 600;">
+                <span>🔊</span> 1. Listen to Maya (പതുക്കെ കേൾക്കാം)
+              </button>
+              <button class="btn-primary" id="recordShadowingBtn" style="background: linear-gradient(135deg, #ec4899, #a855f7); padding: 10px 22px; font-weight: 700;">
+                <span>🎙️</span> 2. Echo & Repeat (കൂടെപ്പറയൂ)
+              </button>
+            </div>
+          </div>
+
+          <!-- Word-by-Word Analysis Result Box -->
+          <div class="shadowing-analysis-box" id="shadowingAnalysisBox" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 700; font-size: 0.85rem; color: #a5b4fc;">Word-by-Word Analysis (വാക്കുകളുടെ കൃത്യത):</span>
+              <span class="shadowing-score-badge" id="shadowingScoreBadge">92% Match</span>
+            </div>
+            <div class="shadowing-words-flow" id="shadowingWordsFlow">
+              <!-- Rendered word badges -->
+            </div>
+            <div class="shadowing-tip-ml" id="shadowingTipMl">
+              <!-- Malayalam coach feedback -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Smart Vocabulary & Saved Phrases Book Modal -->
+    <div class="modal-overlay" id="vocabModal">
+      <div class="modal-card" style="max-width: 680px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>📚</span> Smart Vocabulary & Saved Phrases Book
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #fde68a;">സ്വന്തം ഡിക്ഷണറി & ഫ്ലാഷ് കാർഡുകൾ</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeVocabBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 14px;">
+          <!-- Mode Tabs: List View vs Flashcards -->
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <div class="vocab-mode-tabs">
+              <button class="vocab-tab-btn active" id="vocabListViewBtn">📖 Phrase List (<span id="vocabTotalCount">4</span>)</button>
+              <button class="vocab-tab-btn" id="vocabFlashcardViewBtn">🎴 Flashcard Quiz</button>
+            </div>
+
+            <!-- Filter Tag Select -->
+            <select id="vocabFilterSelect" style="padding: 6px 12px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #f8fafc; font-size: 0.8rem;">
+              <option value="all">All Tags</option>
+              <option value="Grammar Pitfall">Grammar Pitfalls</option>
+              <option value="Daily Spoken">Daily Spoken</option>
+              <option value="Job & Meeting">Job & Meeting</option>
+            </select>
+          </div>
+
+          <!-- LIST VIEW CONTAINER -->
+          <div id="vocabListContainer" style="display: flex; flex-direction: column; gap: 10px; max-height: 55vh; overflow-y: auto;">
+            <!-- Rendered by vocabBook.js -->
+          </div>
+
+          <!-- FLASHCARD VIEW CONTAINER -->
+          <div id="vocabFlashcardContainer" style="display: none; flex-direction: column; align-items: center; gap: 16px; padding: 20px 0;">
+            <div class="flashcard-counter" id="fcCounter">Card 1 of 4</div>
+            <div class="flashcard-3d" id="flashcardBox">
+              <div class="flashcard-inner" id="flashcardInner">
+                <div class="flashcard-front">
+                  <div class="fc-tag" id="fcFrontTag">Daily Spoken</div>
+                  <div class="fc-text" id="fcFrontText">I won't be able to make it today.</div>
+                  <div class="fc-hint">💡 Tap to flip card (അർത്ഥം കാണാൻ ക്ലിക്ക് ചെയ്യൂ)</div>
+                </div>
+                <div class="flashcard-back">
+                  <div class="fc-tag">Malayalam Meaning</div>
+                  <div class="fc-text-ml" id="fcBackText">എനിക്ക് ഇന്ന് വരാൻ സാധിക്കില്ല.</div>
+                  <button class="btn-audio-listen" id="fcListenBtn" style="margin-top: 10px;"><span>🔊</span> Listen Pronunciation</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Flashcard Actions -->
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+              <button class="btn-secondary" id="fcFlipBtn">🔄 Flip Card</button>
+              <button class="btn-secondary" id="fcReviewBtn" style="color: #fbbf24; border-color: rgba(251, 191, 36, 0.4);">🔁 Need Review</button>
+              <button class="btn-primary" id="fcMasteredBtn" style="background: #10b981;">✅ Mastered</button>
+              <button class="btn-secondary" id="fcNextBtn">Next ➔</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Free Cloud Deployment Guide Modal -->
+    <div class="modal-overlay" id="deployModal">
+      <div class="modal-card" style="max-width: 650px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>🌐</span> Free Cloud Deployment Guide
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #7dd3fc;">ലോകത്ത് എവിടെ നിന്നും iPhone & Android-ൽ ഉപയോഗിക്കാം (100% Free HTTPS)</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeDeployBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 16px; max-height: 65vh; overflow-y: auto;">
+          <!-- Option 1: Netlify Drop (Fastest) -->
+          <div class="deploy-option-card" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-weight: 700; color: #34d399; font-size: 1rem;">🚀 Option 1: Netlify Drop (30 Seconds - Drag & Drop)</div>
+              <span class="badge-recom">Recommended</span>
+            </div>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin: 6px 0;">
+              കോഡിംഗ് ഒന്നും ചെയ്യാതെ ഫ്രീയായി ഒരു ലിങ്ക് ലഭിക്കാൻ:
+            </p>
+            <ol style="font-size: 0.82rem; color: #f8fafc; padding-left: 18px; line-height: 1.6;">
+              <li>ബ്രൗസറിൽ <strong>app.netlify.com/drop</strong> തുറക്കുക (Free Signup).</li>
+              <li>കമ്പ്യൂട്ടറിലെ പ്രൊജക്റ്റ് ഫോൾഡർ (<code>f:\PY\EN</code>) മുഴുവനായി ഡ്രാഗ് ചെയ്ത് ബ്രൗസറിലേക്ക് ഇടുക.</li>
+              <li>10 സെക്കൻഡിൽ നിങ്ങൾക്ക് ഒരു സ്ഥിരം HTTPS ലിങ്ക് ലഭിക്കും (ഉദാ: <code>https://samsaaram-ai.netlify.app</code>)!</li>
+            </ol>
+          </div>
+
+          <!-- Option 2: GitHub Pages -->
+          <div class="deploy-option-card">
+            <div style="font-weight: 700; color: #93c5fd; font-size: 0.95rem;">🐙 Option 2: GitHub Pages (Permanent Free Hosting)</div>
+            <p style="font-size: 0.82rem; color: #94a3b8; margin: 6px 0;">
+              GitHub-ലേക്ക് പുഷ് ചെയ്ത് Settings ➔ Pages വഴി സൗജന്യമായി പബ്ലിഷ് ചെയ്യാം.
+            </p>
+            <pre style="background: rgba(0,0,0,0.5); padding: 8px; border-radius: 6px; font-size: 0.75rem; color: #a5b4fc; overflow-x: auto;">git init && git add . && git commit -m "Deploy Samsaaram AI"
+git branch -M main && git remote add origin &lt;YOUR_REPO_URL&gt;
+git push -u origin main</pre>
+          </div>
+
+          <!-- Option 3: Real Phone Telegram Bot Bridge -->
+          <div class="deploy-option-card">
+            <div style="font-weight: 700; color: #fde68a; font-size: 0.95rem;">📲 Real Phone Telegram Bot Bridge (വാട്സാപ്പ് & ടെലിഗ്രാം ബോട്ട്)</div>
+            <p style="font-size: 0.82rem; color: #cbd5e1; margin: 4px 0;">
+              നിങ്ങളുടെ ഫോണിലെ ടെലിഗ്രാമിൽ നിന്നും യഥാർത്ഥ വോയ്‌സ് നോട്ടുകൾ അയച്ച് പ്രാക്ടീസ് ചെയ്യാൻ:
+            </p>
+            <div style="font-size: 0.8rem; color: #94a3b8;">
+              പ്രൊജക്റ്റിലുള്ള <code>telegram_bot.py</code> ഫയലിൽ നിങ്ങളുടെ Bot Token നൽകി റൺ ചെയ്യുക:
+              <pre style="background: rgba(0,0,0,0.5); padding: 8px; border-radius: 6px; font-size: 0.75rem; color: #fbbf24; margin-top: 4px;">set TELEGRAM_BOT_TOKEN="your_token"
+python telegram_bot.py</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: space-between;">
+          <a href="DEPLOYMENT_GUIDE.md" target="_blank" style="font-size: 0.82rem; color: #7dd3fc; text-decoration: underline;">📖 Open Full Deployment Guide (English & Malayalam)</a>
+          <button class="btn-primary" id="closeDeployModalBtn">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Streak, XP & Pronunciation Progress Analytics Modal -->
+    <div class="modal-overlay" id="progressAnalyticsModal">
+      <div class="modal-card" style="max-width: 740px; width: 95%;">
+        <div class="modal-header">
+          <div>
+            <h3 style="display: flex; align-items: center; gap: 8px;">
+              <span>📊</span> Spoken English Mastery Dashboard
+            </h3>
+            <span class="ml-font" style="font-size: 0.8rem; color: #34d399;">നിങ്ങളുടെ ഇംഗ്ലീഷ് സ്പീക്കിംഗ് പുരോഗതി & ഡെയ്‌ലി സ്ട്രീക്ക്</span>
+          </div>
+          <button class="btn-icon-subtle" id="closeProgressModalBtn">✕</button>
+        </div>
+
+        <div class="modal-body" style="gap: 18px;">
+          <!-- Level & XP Hero Card -->
+          <div class="progress-hero-card">
+            <div class="progress-level-row">
+              <div class="level-badge-pill" id="dashboardLevelBadge">Level 1</div>
+              <div class="level-title-wrap">
+                <div class="level-title-en" id="dashboardLevelTitle">Beginner Explorer</div>
+                <div class="level-title-ml ml-font" id="dashboardLevelTitleMl">തുടക്കക്കാരൻ</div>
+              </div>
+              <div class="streak-fire-pill" id="dashboardStreakPill">
+                <span>🔥</span> <strong id="dashboardStreakCount">3</strong> Days Streak
+              </div>
+            </div>
+
+            <!-- XP Progress Bar -->
+            <div class="xp-bar-container">
+              <div class="xp-bar-header">
+                <span style="font-size: 0.8rem; color: #94a3b8;">Level Progress</span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #a7f3d0;" id="dashboardXpText">120 / 200 XP</span>
+              </div>
+              <div class="xp-progress-track">
+                <div class="xp-progress-fill" id="dashboardXpFill" style="width: 60%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4-Grid Key Stats -->
+          <div class="stats-grid-4">
+            <div class="stat-card">
+              <div class="stat-icon">🗣️</div>
+              <div class="stat-value" id="statMinutesSpoken">6.0</div>
+              <div class="stat-label">Mins Spoken</div>
+              <div class="stat-sub ml-font">സംസാരിച്ച സമയം</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-value" id="statMessagesSpoken">8</div>
+              <div class="stat-label">Sentences Practiced</div>
+              <div class="stat-sub ml-font">വാക്യങ്ങൾ</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✨</div>
+              <div class="stat-value" id="statGrammarFixes">5</div>
+              <div class="stat-label">Grammar Mastered</div>
+              <div class="stat-sub ml-font">തിരുത്തലുകൾ</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📚</div>
+              <div class="stat-value" id="statVocabSaved">6</div>
+              <div class="stat-label">Vocab Saved</div>
+              <div class="stat-sub ml-font">പുതിയ വാക്കുകൾ</div>
+            </div>
+          </div>
+
+          <!-- Malayali Accent & Phonetics Diagnostic Report -->
+          <div class="accent-diagnostic-section">
+            <div style="font-weight: 700; font-size: 0.95rem; color: #f8fafc; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🎯</span> Malayali Accent & Pronunciation Diagnostic Report
+            </div>
+            <p style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 12px;" class="ml-font">
+              മലയാളികൾക്ക് സാധാരണ തെറ്റുന്ന പ്രത്യേക ശബ്ദങ്ങളുടെ പ്രാവീണ്യം:
+            </p>
+
+            <div class="phonetics-bars-list" id="phoneticsBarsList">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Weekly Practice Chart & Badges -->
+          <div class="weekly-badges-row">
+            <!-- Weekly Chart -->
+            <div class="weekly-chart-box">
+              <div style="font-weight: 700; font-size: 0.88rem; color: #cbd5e1; margin-bottom: 8px;">
+                📅 Weekly Activity (വാരാന്ത്യ പ്രാക്ടീസ്)
+              </div>
+              <div class="weekly-bars-container" id="weeklyBarsContainer">
+                <!-- 7 days bars -->
+              </div>
+            </div>
+
+            <!-- Milestone Badges -->
+            <div class="badges-box">
+              <div style="font-weight: 700; font-size: 0.88rem; color: #cbd5e1; margin-bottom: 8px;">
+                🏆 Achievements & Badges
+              </div>
+              <div class="badges-grid-list" id="badgesGridList">
+                <!-- Badges -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: space-between;">
+          <span style="font-size: 0.78rem; color: #94a3b8;">
+            💡 Tip: Keep practicing daily voice calls to unlock Master Level!
+          </span>
+          <button class="btn-primary" id="doneProgressModalBtn">Keep Practicing 🚀</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🚗 In-Car Drive Mode (CarPlay & Bluetooth Driving Companion Overlay) -->
+    <div class="car-drive-overlay" id="carDriveModeModal">
+      <!-- Top Driver Status Bar -->
+      <div class="car-top-bar">
+        <div class="car-bt-badge">
+          <span>🚗</span> <strong>CarPlay / Bluetooth Audio</strong>
+        </div>
+        <div class="car-wake-badge" id="carWakeLockBadge">
+          <span>🔆</span> Screen Kept Awake
+        </div>
+        <div class="car-timer-badge">
+          <span class="call-recording-dot"></span>
+          <span id="carDriveTimer">00:00</span>
+        </div>
+        <button class="btn-exit-drive" id="exitCarDriveBtn" title="Exit Car Drive Mode">
+          <span>✕</span> Exit Drive Mode
+        </button>
+      </div>
+
+      <!-- Main In-Car Center Stage -->
+      <div class="car-center-stage">
+        <!-- Giant Glowing Driver Orb -->
+        <div class="car-orb-wrapper" id="carOrbWrapper">
+          <div class="car-orb-core" id="carOrbCore">
+            👩‍🏫
+          </div>
+          <div class="car-orb-halo halo-1"></div>
+          <div class="car-orb-halo halo-2"></div>
+        </div>
+
+        <!-- Driver State Indicator -->
+        <div class="car-driver-state" id="carDriverState">
+          <span class="car-state-icon" id="carStateIcon">🟢</span>
+          <span id="carStateText">Teacher Maya is Speaking...</span>
+        </div>
+
+        <!-- Giant High-Contrast Speech Subtitles Box -->
+        <div class="car-captions-box" id="carCaptionsBox">
+          <div class="car-caption-en" id="carDriveCaptionEn">
+            "Hello! You are in In-Car Drive Mode. Just speak naturally, I am listening through your car microphone!"
+          </div>
+          <div class="car-caption-ml ml-font" id="carDriveCaptionMl">
+            ഹലോ! ഡ്രൈവ് മോഡിൽ നിങ്ങൾക്കൊപ്പമുണ്ട്. കാറിലിരുന്ന് ധൈര്യമായി സംസാരിക്കൂ!
+          </div>
+        </div>
+
+        <!-- Driving Practice Quick Prompts -->
+        <div class="car-prompts-tray">
+          <button class="car-prompt-pill" onclick="sendQuickReply('Describe the road and traffic ahead in English')">
+            🛣️ Describe Road
+          </button>
+          <button class="car-prompt-pill" onclick="sendQuickReply('Quiz me with 3 English questions while I drive')">
+            🎯 Car Quiz
+          </button>
+          <button class="car-prompt-pill" onclick="sendQuickReply('Tell me an interesting English idiom with meaning')">
+            💡 English Idiom
+          </button>
+          <button class="car-prompt-pill" onclick="sendQuickReply('Let us have a casual conversation while I drive')">
+            💬 Casual Drive Talk
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Giant Driver Controls -->
+      <div class="car-bottom-dock">
+        <!-- Large Mic Mute Button for Tolls / Passenger Talk -->
+        <button class="btn-car-control" id="carDriveMuteBtn" title="Mute Microphone (Toll Booth / Passenger)">
+          <span class="car-ctrl-icon" id="carMuteIcon">🎙️</span>
+          <span class="car-ctrl-text" id="carMuteText">Mic ON</span>
+        </button>
+
+        <!-- Repeat Maya's Last Sentence -->
+        <button class="btn-car-control" id="carDriveReplayBtn" title="Replay Teacher Maya's Response">
+          <span class="car-ctrl-icon">🔊</span>
+          <span class="car-ctrl-text">Replay</span>
+        </button>
+
+        <!-- Slow Repeat -->
+        <button class="btn-car-control" id="carDriveSlowReplayBtn" title="Replay Slow (0.75x)">
+          <span class="car-ctrl-icon">🐢</span>
+          <span class="car-ctrl-text">0.75x Slow</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 📲 PWA Standalone App Install Modal -->
+    <div class="modal-overlay" id="pwaInstallModal">
+      <div class="modal-card pwa-install-card">
+        <div class="modal-header">
+          <div class="pwa-header-brand">
+            <div class="pwa-logo-orb">🎙️</div>
+            <div>
+              <h3>Install Samsaaram AI App</h3>
+              <p class="modal-sub">Phone Home Screen & In-Car Dashboard Companion</p>
+            </div>
+          </div>
+          <button class="btn-close-modal" id="closePwaModalBtn">✕</button>
+        </div>
+
+        <div class="modal-body pwa-modal-body">
+          <!-- Standalone Perks Grid -->
+          <div class="pwa-perks-grid">
+            <div class="pwa-perk-item">
+              <span class="perk-icon">🚗</span>
+              <div class="perk-text">
+                <strong>In-Car Dashboard Ready</strong>
+                <span>CarPlay & Bluetooth audio with Screen Wake-Lock.</span>
+              </div>
+            </div>
+            <div class="pwa-perk-item">
+              <span class="perk-icon">📶</span>
+              <div class="perk-text">
+                <strong>100% Offline Mode</strong>
+                <span>Practices & saved vocabulary work without internet.</span>
+              </div>
+            </div>
+            <div class="pwa-perk-item">
+              <span class="perk-icon">⚡</span>
+              <div class="perk-text">
+                <strong>Instant Native Launch</strong>
+                <span>Opens like a native iOS/Android app without URL bars.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Device Action Section -->
+          <div class="pwa-device-box" id="pwaNativeInstallBox" style="display: none;">
+            <button class="btn-primary btn-pwa-cta" id="pwaTriggerNativeBtn">
+              <span>🚀</span> Install Samsaaram AI App Now
+            </button>
+            <p class="pwa-note">1-tap install on your device. Fast, safe, and takes 0 MB storage.</p>
+          </div>
+
+          <!-- iOS Safari Add to Home Screen Visual Guide -->
+          <div class="pwa-ios-guide" id="pwaIosGuideBox">
+            <div class="pwa-guide-title">
+              <span>🍎</span> <strong>How to Install on iPhone & iPad (Safari)</strong>
+            </div>
+            <div class="ios-steps-list">
+              <div class="ios-step-card">
+                <div class="step-badge">1</div>
+                <div class="step-info">
+                  <span>Tap the <strong>Share</strong> button in Safari bottom bar</span>
+                  <div class="step-icon-preview">⎋ / <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div>
+                </div>
+              </div>
+              <div class="ios-step-card">
+                <div class="step-badge">2</div>
+                <div class="step-info">
+                  <span>Scroll down and tap <strong>"Add to Home Screen"</strong></span>
+                  <span class="ml-font" style="font-size: 0.8rem; color: #a7f3d0;">(ഹോം സ്ക്രീനിലേക്ക് ചേർക്കുക)</span>
+                </div>
+              </div>
+              <div class="ios-step-card">
+                <div class="step-badge">3</div>
+                <div class="step-info">
+                  <span>Tap <strong>"Add"</strong> in the top-right corner</span>
+                  <span style="font-size: 0.8rem; color: #94a3b8;">Launch directly from your home screen anytime!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- In-Car Head Unit Guide -->
+          <div class="pwa-car-guide">
+            <div class="pwa-guide-title">
+              <span>🚗</span> <strong>In-Car & Tesla / Dashboard Mounts</strong>
+            </div>
+            <p class="car-guide-text">
+              Open your car browser (Tesla, Android Auto browser, or in-dash tablet) and pin this page to favorites. Tap <strong>🚗 Drive Mode LIVE</strong> for high-contrast driver controls!
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: flex-end;">
+          <button class="btn-primary" id="pwaDoneBtn">Got it! 👍</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📸 Snap & Learn AI Camera Vision Modal -->
+    <div class="modal-overlay" id="snapLearnModal">
+      <div class="modal-card snap-learn-card">
+        <div class="modal-header">
+          <div class="snap-header-info">
+            <span class="snap-logo-badge">📸</span>
+            <div>
+              <h3>Snap & Learn AI Vision</h3>
+              <p class="modal-sub">ക്യാമറ കാണിച്ച് ഇംഗ്ലീഷ് പഠിക്കാം • Real-World Object to Spoken English</p>
+            </div>
+          </div>
+          <div class="modal-header-actions">
+            <button class="btn-icon-subtle" id="cameraSwitchBtn" title="Switch Front/Back Camera">🔄</button>
+            <button class="btn-close-modal" id="closeSnapLearnBtn">✕</button>
+          </div>
+        </div>
+
+        <div class="modal-body snap-modal-body">
+          <!-- Live Camera Viewfinder -->
+          <div class="camera-viewfinder-wrapper" id="cameraViewfinderWrapper">
+            <video id="cameraVideo" class="camera-video-feed" autoplay playsinline muted></video>
+            <canvas id="cameraCanvas" style="display: none;"></canvas>
+            
+            <!-- Scan target overlay -->
+            <div class="camera-target-reticle">
+              <div class="reticle-corner top-left"></div>
+              <div class="reticle-corner top-right"></div>
+              <div class="reticle-corner bottom-left"></div>
+              <div class="reticle-corner bottom-right"></div>
+              <div class="reticle-laser" id="cameraLaserLine"></div>
+            </div>
+
+            <!-- Loading Spinner / Analyzing indicator -->
+            <div class="camera-analyzing-overlay" id="cameraAnalyzingOverlay" style="display: none;">
+              <div class="scanner-spinner"></div>
+              <p>Teacher Maya is analyzing your photo with Gemini AI...</p>
+              <span class="ml-font" style="font-size: 0.85rem; color: #34d399;">ഇംഗ്ലീഷ് വാക്കും വാക്യങ്ങളും തയ്യാറാക്കുന്നു...</span>
+            </div>
+          </div>
+
+          <!-- Camera Shutter & Alternative Upload Bar -->
+          <div class="camera-shutter-bar">
+            <label for="cameraFileInput" class="btn-camera-upload" title="Upload Photo from Device">
+              <span>📁</span>
+              <span class="shutter-label">Upload</span>
+            </label>
+            <input type="file" id="cameraFileInput" accept="image/*" style="display: none;">
+
+            <!-- Main Shutter Button -->
+            <button class="btn-camera-shutter" id="cameraShutterBtn" title="Capture Photo & Learn">
+              <div class="shutter-inner-ring"></div>
+            </button>
+
+            <!-- Sample Catalog Quick Trigger -->
+            <button class="btn-camera-upload" id="cameraSampleBtn" title="Choose a Sample Everyday Object">
+              <span>✨</span>
+              <span class="shutter-label">Samples</span>
+            </button>
+          </div>
+
+          <!-- Quick Everyday Sample Pills -->
+          <div class="camera-samples-tray" id="cameraSamplesTray">
+            <span class="sample-tray-label">Quick Practice:</span>
+            <button class="sample-pill" data-sample="coffee">☕ Coffee Cup</button>
+            <button class="sample-pill" data-sample="laptop">💻 Laptop</button>
+            <button class="sample-pill" data-sample="passport">🛂 Passport</button>
+            <button class="sample-pill" data-sample="medicine">💊 Medicine</button>
+            <button class="sample-pill" data-sample="restaurant">🍽️ Menu / Bill</button>
+            <button class="sample-pill" data-sample="car">🚗 Car Dashboard</button>
+          </div>
+
+          <!-- Analysis Results Card (Populated after snap/selection) -->
+          <div class="camera-result-card" id="cameraResultCard" style="display: none;">
+            <!-- Object Header -->
+            <div class="object-hero-box">
+              <div class="object-icon-badge" id="snapObjectIcon">☕</div>
+              <div class="object-meta-info">
+                <h4 id="snapObjectName">A Cup of Coffee</h4>
+                <div class="object-pronounce-row">
+                  <span class="pronounce-chip" id="snapObjectPronounce">/kɒfi/</span>
+                  <button class="btn-listen-mini" id="snapListenObjectBtn" title="Listen Pronunciation">🔊 Listen</button>
+                </div>
+                <p class="object-tip-ml ml-font" id="snapObjectTip">മലയാളികൾ സാധാരണ വരുത്തുന്ന ഉച്ചാരണ പിശകുകൾ ഒഴിവാക്കാം.</p>
+              </div>
+            </div>
+
+            <!-- 3 Practical Daily Spoken Sentences -->
+            <div class="object-sentences-container">
+              <div class="section-title-sm">
+                <span>🗣️</span> <strong>3 Practical Everyday English Sentences</strong>
+              </div>
+              <div class="snap-sentences-list" id="snapSentencesList">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <!-- Conversation Prompt Card -->
+            <div class="snap-conversation-box">
+              <div class="snap-maya-badge">
+                <span>👩‍🏫</span> <strong>Teacher Maya's Speaking Challenge:</strong>
+              </div>
+              <p class="snap-starter-text" id="snapStarterText">Let's talk about this object! What do you use it for?</p>
+              <button class="btn-primary btn-talk-object" id="snapTalkWithMayaBtn">
+                <span>🎙️</span> Practice Speaking with Maya Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🗣️ 2-Way Live Walkie-Talkie Interpreter Modal -->
+    <div class="modal-overlay" id="twoWayInterpreterModal">
+      <div class="modal-card interpreter-card">
+        <div class="modal-header">
+          <div class="interpreter-header-brand">
+            <span class="interpreter-brand-orb">🗣️</span>
+            <div>
+              <h3>2-Way Live Walkie-Talkie Interpreter</h3>
+              <p class="modal-sub">Face-to-Face Dual Speech-to-Speech Bridge • യാത്രയ്ക്കും വിദേശികൾക്കും</p>
+            </div>
+          </div>
+          <div class="modal-header-actions">
+            <!-- Audio Mode: Speakerphone vs Earphones -->
+            <button class="btn-audio-mode" id="interpreterAudioModeBtn" title="Toggle Speakerphone / Earphones Mode">
+              <span id="audioModeIcon">📢</span> <span id="audioModeText">Speaker</span>
+            </button>
+            <button class="btn-close-modal" id="closeInterpreterBtn">✕</button>
+          </div>
+        </div>
+
+        <div class="modal-body interpreter-modal-body">
+          <!-- Split Screen Two-Way Stage -->
+          <div class="interpreter-stage-grid">
+            
+            <!-- TOP HALF: English Speaker (Foreigner / Colleague) -->
+            <div class="interpreter-half-panel panel-english" id="panelEnglish">
+              <div class="panel-header-row">
+                <span class="lang-flag-badge">🇬🇧 / 🇺🇸 English Speaker</span>
+                <span class="panel-role-hint">Turn phone toward foreigner</span>
+              </div>
+
+              <!-- Live Spoken Transcript -->
+              <div class="transcript-display-box" id="transcriptEnBox">
+                <p class="transcript-placeholder" id="placeholderEn">Spoken English appears here...</p>
+                <p class="transcript-text" id="textEnSpoken" style="display: none;"></p>
+              </div>
+
+              <!-- Translated Output for Malayali -->
+              <div class="translation-output-box" id="outputMlBox">
+                <div class="output-label">
+                  <span class="ml-font">മലയാളം പരിഭാഷ (Translation for You):</span>
+                  <button class="btn-replay-mini" id="replayMlAudioBtn" title="Replay Malayalam Audio">🔊</button>
+                </div>
+                <div class="output-content ml-font" id="textMlTranslated">Tap the mic below and ask the other person to speak in English.</div>
+              </div>
+
+              <!-- Giant English Mic Button -->
+              <div class="interpreter-mic-wrapper">
+                <button class="btn-touch-mic mic-english" id="btnMicEnglish" title="Tap to Listen to English Speaker">
+                  <span class="mic-wave-ring ring-1"></span>
+                  <span class="mic-wave-ring ring-2"></span>
+                  <span class="mic-glyph-icon">🎙️</span>
+                  <span class="mic-action-title">Speak English</span>
+                  <span class="mic-status-label" id="statusLabelEn">Ready</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- CENTER DIVIDER & AUTO-MODE BAR -->
+            <div class="interpreter-center-bar">
+              <div class="center-mode-pill">
+                <label class="toggle-switch-sm">
+                  <input type="checkbox" id="autoWalkieTalkieToggle">
+                  <span class="toggle-slider"></span>
+                </label>
+                <span>Auto-Detect Turn (Walkie-Talkie)</span>
+              </div>
+              <button class="btn-clear-transcript" id="clearInterpreterBtn" title="Clear Conversation">
+                <span>🗑️</span> Clear
+              </button>
+            </div>
+
+            <!-- BOTTOM HALF: Malayalam Speaker (You) -->
+            <div class="interpreter-half-panel panel-malayalam" id="panelMalayalam">
+              <div class="panel-header-row">
+                <span class="lang-flag-badge">🇮🇳 മലയാളം സ്പീക്കർ (You)</span>
+                <span class="panel-role-hint">നിങ്ങൾ സംസാരിക്കൂ</span>
+              </div>
+
+              <!-- Live Spoken Malayalam Transcript -->
+              <div class="transcript-display-box" id="transcriptMlBox">
+                <p class="transcript-placeholder ml-font" id="placeholderMl">നിങ്ങൾ സംസാരിക്കുന്നത് ഇവിടെ കാണാം...</p>
+                <p class="transcript-text ml-font" id="textMlSpoken" style="display: none;"></p>
+              </div>
+
+              <!-- Translated Output for Foreigner (English) -->
+              <div class="translation-output-box" id="outputEnBox">
+                <div class="output-label">
+                  <span>English Translation (Spoken to Foreigner):</span>
+                  <button class="btn-replay-mini" id="replayEnAudioBtn" title="Replay English Audio">🔊</button>
+                </div>
+                <div class="output-content text-en-bold" id="textEnTranslated">Speak in Malayalam; the app will speak it aloud in fluent English!</div>
+              </div>
+
+              <!-- Giant Malayalam Mic Button -->
+              <div class="interpreter-mic-wrapper">
+                <button class="btn-touch-mic mic-malayalam" id="btnMicMalayalam" title="മലയാളത്തിൽ സംസാരിക്കാൻ ടാപ്പ് ചെയ്യുക">
+                  <span class="mic-wave-ring ring-1"></span>
+                  <span class="mic-wave-ring ring-2"></span>
+                  <span class="mic-glyph-icon">🎙️</span>
+                  <span class="mic-action-title ml-font">മലയാളത്തിൽ പറയൂ</span>
+                  <span class="mic-status-label" id="statusLabelMl">തയ്യാറാണ്</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🌐 Free Cloud Deployment Modal -->
+    <div class="modal-overlay" id="deployModal">
+      <div class="modal-card deploy-modal-card">
+        <div class="modal-header">
+          <div class="deploy-header-brand">
+            <span class="deploy-brand-icon">🌐</span>
+            <div>
+              <h3>Deploy Samsaaram AI Online</h3>
+              <p class="modal-sub">100% Free Permanent HTTPS Link for iPhone, Android & In-Car</p>
+            </div>
+          </div>
+          <button class="btn-close-modal" id="closeDeployModalBtn">✕</button>
+        </div>
+
+        <div class="modal-body deploy-modal-body">
+          <p class="deploy-intro-text">
+            Samsaaram AI is a <strong>pure static PWA</strong> with zero backend dependencies. You can publish it online for free in under <strong>60 seconds</strong> to get a secure HTTPS link that works worldwide on your iPhone with full microphone and camera permissions!
+          </p>
+
+          <!-- Method 1: Netlify Drop -->
+          <div class="deploy-method-card featured">
+            <div class="method-badge-row">
+              <span class="method-tag tag-fastest">⚡ FASTEST • 30 SECONDS</span>
+              <span class="method-tag tag-nocode">No Coding Required</span>
+            </div>
+            <h4>Option 1: Netlify Drop (Drag & Drop)</h4>
+            <ol class="deploy-steps-list">
+              <li>Open <a href="https://app.netlify.com/drop" target="_blank" rel="noopener" class="deploy-link">app.netlify.com/drop ↗</a> in your browser.</li>
+              <li>Open your computer's Desktop in File Explorer: <code>C:\Users\bensy\Desktop\EN</code></li>
+              <li><strong>Drag and drop the entire <code>EN</code> folder</strong> directly onto the Netlify Drop webpage!</li>
+              <li>Netlify gives you a permanent live HTTPS link (e.g. <code>https://samsaaram-ai.netlify.app</code>).</li>
+            </ol>
+          </div>
+
+          <!-- Method 2: Vercel -->
+          <div class="deploy-method-card">
+            <div class="method-badge-row">
+              <span class="method-tag">▲ 1 COMMAND</span>
+            </div>
+            <h4>Option 2: Vercel CLI</h4>
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 8px;">Run this command in your project folder:</p>
+            <div class="code-copy-box">
+              <code>npx vercel</code>
+            </div>
+          </div>
+
+          <!-- Method 3: GitHub Pages -->
+          <div class="deploy-method-card">
+            <div class="method-badge-row">
+              <span class="method-tag">🐙 GITHUB PAGES</span>
+            </div>
+            <h4>Option 3: GitHub Pages</h4>
+            <p style="font-size: 0.85rem; color: #cbd5e1;">
+              Push this folder to a GitHub repository, go to <strong>Settings ➔ Pages</strong>, and select branch <code>main</code>. Your link will be: <code>https://yourusername.github.io/samsaaram-ai/</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: flex-end;">
+          <button class="btn-primary" id="closeDeployBtn">Got it! 🚀</button>
+        </div>
+      </div>
+    </div>
+
+  <script src="cameraVisionEngine.js"></script>
+  <script src="progressAnalytics.js"></script>
+  <script src="translatorEngine.js"></script>
+  <script src="pronunciationEngine.js"></script>
+  <script src="gdRoom.js"></script>
+  <script src="dailyChallenge.js"></script>
+  <script src="whatsappMode.js"></script>
+  <script src="shadowingPlayer.js"></script>
+  <script src="vocabBook.js"></script>
+  <script src="tutorEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

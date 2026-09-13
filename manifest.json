@@ -1,0 +1,65 @@
+{
+  "name": "Samsaaram AI - Live English AI Teacher",
+  "short_name": "Samsaaram AI",
+  "description": "Live Spoken English AI Teacher for Malayalam Speakers with In-Car Drive Mode & CarPlay Audio",
+  "id": "/?source=pwa",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#030712",
+  "theme_color": "#0f172a",
+  "orientation": "any",
+  "lang": "en",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "🚗 In-Car Drive Mode",
+      "short_name": "Drive Mode",
+      "description": "Hands-free driving spoken English practice with screen wake lock",
+      "url": "./index.html?mode=drive",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "📞 Live Voice Call",
+      "short_name": "Voice Call",
+      "description": "Simulated real-time phone call with Teacher Maya",
+      "url": "./index.html?mode=call",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "📊 Daily Progress & XP",
+      "short_name": "Progress",
+      "description": "Check daily streaks, XP leveling, and pronunciation diagnostic report",
+      "url": "./index.html?mode=progress",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "🗂️ 3D Flashcards & Vocab",
+      "short_name": "Vocab",
+      "description": "Practice saved English words with Malayalam meanings",
+      "url": "./index.html?mode=vocab",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

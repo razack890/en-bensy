@@ -1,0 +1,15 @@
+# Node & build
+node_modules/
+.vercel
+dist/
+.env*
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

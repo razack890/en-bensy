@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samsaaram AI - iPhone 15 Plus Mobile View</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Manrope:wght@400;500;600&display=swap">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, #172554 0%, #090d16 60%, #030712 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px 40px;
+      font-family: 'Outfit', sans-serif;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    /* Top Preview Control Bar */
+    .preview-header {
+      text-align: center;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-device {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preview-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-ctrl {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f1f5f9;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-ctrl:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: #34d399;
+      color: #34d399;
+      transform: translateY(-1px);
+    }
+
+    /* iPhone 15 Plus Frame Container */
+    .device-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+
+    /* Outer Titanium Bezel */
+    .iphone-15-plus {
+      position: relative;
+      width: 430px;
+      height: 932px;
+      background: #000000;
+      border-radius: 54px;
+      box-shadow: 
+        0 0 0 4px #27272a,
+        0 0 0 6px #52525b,
+        0 0 0 8px #18181b,
+        0 25px 60px -15px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(16, 185, 129, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 124px;
+      height: 35px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      pointer-events: none;
+    }
+
+    .camera-lens {
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #0f172a 40%, #020617 100%);
+      border-radius: 50%;
+      border: 1px solid #1e293b;
+    }
+
+    .sensor-lens {
+      width: 10px;
+      height: 10px;
+      background: #020617;
+      border-radius: 50%;
+    }
+
+    /* iOS Status Bar */
+    .ios-status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      z-index: 90;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(9, 13, 22, 0.9) 0%, transparent 100%);
+    }
+
+    .status-left {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+
+    .battery-icon {
+      width: 22px;
+      height: 11px;
+      border: 1.5px solid #ffffff;
+      border-radius: 3px;
+      padding: 1px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .battery-icon::after {
+      content: '';
+      position: absolute;
+      right: -3px;
+      width: 2px;
+      height: 5px;
+      background: #ffffff;
+      border-radius: 0 1px 1px 0;
+    }
+
+    .battery-fill {
+      width: 80%;
+      height: 100%;
+      background: #34d399;
+      border-radius: 1px;
+    }
+
+    /* Embedded App Frame */
+    .app-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #090d16;
+      border-radius: 54px;
+    }
+
+    /* iOS Home Indicator Bar */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.45);
+      border-radius: 10px;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* Specs card below */
+    .device-specs {
+      margin-top: 28px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    .spec-item strong {
+      color: #f1f5f9;
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="preview-header">
+    <div class="badge-device">📱 iPhone 15 Plus Simulation</div>
+    <h1>Samsaaram AI — Mobile Experience</h1>
+    <div class="preview-controls">
+      <button class="btn-ctrl" onclick="reloadFrame()">🔄 Reload App</button>
+      <button class="btn-ctrl" onclick="toggleIsland()">🏝️ Toggle Dynamic Island</button>
+      <a class="btn-ctrl" href="index.html" target="_blank">↗️ Open Direct App</a>
+    </div>
+  </header>
+
+  <main class="device-wrapper">
+    <div class="iphone-15-plus" id="phoneBody">
+      <!-- iOS Status Bar -->
+      <div class="ios-status-bar">
+        <span class="status-left" id="liveTime">9:41</span>
+        <div class="status-right">
+          <span>5G</span>
+          <span>📶</span>
+          <div class="battery-icon">
+            <div class="battery-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Island -->
+      <div class="dynamic-island" id="dynamicIsland">
+        <div class="sensor-lens"></div>
+        <div class="camera-lens"></div>
+      </div>
+
+      <!-- Actual App Webview -->
+      <iframe src="index.html?v=2026" class="app-frame" id="appIframe" title="Samsaaram AI Mobile View"></iframe>
+
+      <!-- iOS Home Indicator -->
+      <div class="home-indicator"></div>
+    </div>
+  </main>
+
+  <footer class="device-specs">
+    <div class="spec-item">
+      <strong>430 × 932 px</strong>
+      Viewport Resolution
+    </div>
+    <div class="spec-item">
+      <strong>6.7" Super Retina</strong>
+      Screen Display
+    </div>
+    <div class="spec-item">
+      <strong>Dynamic Island</strong>
+      iOS 17+ Environment
+    </div>
+    <div class="spec-item">
+      <strong>PWA & Voice Ready</strong>
+      Touch & Mic Enabled
+    </div>
+  </footer>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('liveTime').textContent = `${hours % 12 || 12}:${minutes}`;
+    }
+    updateTime();
+    setInterval(updateTime, 10000);
+
+    function reloadFrame() {
+      const iframe = document.getElementById('appIframe');
+      iframe.src = 'index.html?t=' + Date.now();
+    }
+
+    // Force fresh load on startup
+    window.addEventListener('DOMContentLoaded', () => {
+      reloadFrame();
+    });
+
+    function toggleIsland() {
+      const island = document.getElementById('dynamicIsland');
+      island.style.display = (island.style.display === 'none') ? 'flex' : 'none';
+    }
+  </script>
+</body>
+</html>

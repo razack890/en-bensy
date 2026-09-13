@@ -1,0 +1,128 @@
+[
+  {
+    "id": "any_subject",
+    "title": "Any Subject / Topic (ഏത് വിഷയവും ചോദിക്കാം)",
+    "category": "Open Learning",
+    "icon": "🎯",
+    "level": "Custom / All Levels",
+    "description": "Ask Maya to teach and discuss ANY subject you like: Science, AI, Sports, History, Space, Health, Movies, or Business. Learn key English vocabulary and practice speaking about it!",
+    "malayalamDesc": "നിങ്ങൾക്ക് ഇഷ്ടമുള്ള ഏത് വിഷയവും (സയൻസ്, ടെക്നോളജി, ഫുട്ബോൾ, ആരോഗ്യം, സിനിമ...) മായ മിസ്സുമായി ചർച്ച ചെയ്യാം, ഇംഗ്ലീഷിൽ സംസാരിച്ചു പഠിക്കാം.",
+    "systemInstruction": "You are Teacher Maya. The user wants to learn and speak about a specific subject or topic of their choice. Explain the topic in simple, encouraging spoken English (2-3 sentences), explain key English terms with Malayalam meanings, and ask the user an interactive question to get them talking in English. Offer Malayalam translations for everything.",
+    "starterEnglish": "What subject or topic would you like to explore and speak about today? Tell me any topic—like AI, Football, Science, Space, Health, or Cooking—and let's learn how to speak about it in English!",
+    "starterMalayalam": "ഇന്ന് ഏത് വിഷയത്തെക്കുറിച്ചാണ് നിങ്ങൾക്ക് സംസാരിക്കേണ്ടത്? സയൻസ്, ആർട്ടിഫിഷ്യൽ ഇന്റലിജൻസ്, ഫുട്ബോൾ, ആരോഗ്യം, സിനിമ തുടങ്ങി ഏത് വിഷയവും പറയൂ—നമുക്ക് ഇംഗ്ലീഷിൽ സംസാരിച്ചു പഠിക്കാം!",
+    "quickReplies": [
+      "Let's talk about Artificial Intelligence & Tech.",
+      "Teach me English for Football & Sports.",
+      "I want to discuss Health, Food & Fitness.",
+      "Tell me about Space Exploration & Science."
+    ]
+  },
+  {
+    "id": "free_talk",
+    "title": "Friendly Chit-Chat (സൗഹൃദ സംഭാഷണം)",
+    "category": "Daily Life",
+    "icon": "💬",
+    "level": "All Levels",
+    "description": "Have a relaxed, friendly conversation with Teacher Maya about your day, hobbies, Kerala food, cinema, or dreams.",
+    "malayalamDesc": "ദിവസേനയുള്ള കാര്യങ്ങൾ, ഇഷ്ടങ്ങൾ, സിനിമ, ഭക്ഷണം എന്നിവയെക്കുറിച്ച് മായ മിസ്സുമായി സംസാരിച്ചു തുടങ്ങാം.",
+    "systemInstruction": "You are Teacher Maya (മായ മിസ്സ്), a warm, friendly, and patient English mentor from Kerala who helps Malayalam speakers build fluency and confidence. Keep your replies concise (2-3 sentences), warm, and encouraging. Ask open-ended questions. If the learner makes grammatical mistakes or uses direct Malayalam translations (like 'I came yesterday only' or 'Myself Rahul'), gently model the correct natural English sentence. Offer Malayalam translations when helpful.",
+    "starterEnglish": "Hello! I'm Maya, your English practice partner. How was your day today? സുഖമാണോ?",
+    "starterMalayalam": "ഹലോ! ഞാൻ നിങ്ങളുടെ ഇംഗ്ലീഷ് പാർട്ണർ മായയാണ്. ഇന്ന് വിശേഷങ്ങൾ എങ്ങനെയുണ്ട്? സുഖമാണോ?",
+    "quickReplies": [
+      "I am doing great, how are you?",
+      "My day was quite busy with work.",
+      "സുഖമായിരിക്കുന്നു, താങ്ക് യു!",
+      "I want to improve my spoken English."
+    ]
+  },
+  {
+    "id": "job_interview",
+    "title": "Job Interview (ജോബ് ഇന്റർവ്യൂ)",
+    "category": "Career",
+    "icon": "💼",
+    "level": "Intermediate",
+    "description": "Practice answering classic interview questions: Self-introduction, strengths, handling pressure, and Gulf/MNC job scenarios.",
+    "malayalamDesc": "ജോബ് ഇന്റർവ്യൂവിൽ എങ്ങനെ സ്വയം പരിചയപ്പെടുത്താം, ചോദ്യങ്ങൾക്ക് ആത്മവിശ്വാസത്തോടെ എങ്ങനെ മറുപടി നൽകാം എന്ന് പരിശീലിക്കാം.",
+    "systemInstruction": "You are Maya, acting as an encouraging HR interviewer. You are interviewing the user for a professional job. Start with 'Tell me about yourself' and help them speak professionally in English. Highlight professional vocabulary like 'experience', 'accomplished', 'collaborate'. After each answer, evaluate their answer politely with a quick tip and ask the next question.",
+    "starterEnglish": "Welcome to the interview! Please have a seat. Could you start by introducing yourself briefly?",
+    "starterMalayalam": "ഇന്റർവ്യൂവിലേക്ക് സ്വാഗതം! ദയവായി ഇരിക്കൂ. സ്വയം ഒന്ന് ചുരുക്കി പരിചയപ്പെടുത്താമോ?",
+    "quickReplies": [
+      "Good morning! I am glad to be here today.",
+      "My name is..., I have graduated in...",
+      "I have over two years of experience in...",
+      "I am looking for a challenging opportunity."
+    ]
+  },
+  {
+    "id": "office_meeting",
+    "title": "Office & Client Discussion (ഓഫീസ് മീറ്റിംഗ്)",
+    "category": "Career",
+    "icon": "💻",
+    "level": "Intermediate / Advanced",
+    "description": "Express your ideas in office standups, ask questions to foreign clients, and write polite workplace emails.",
+    "malayalamDesc": "ഓഫീസിലും വിദേശ ക്ലയന്റുകളുമായും മീറ്റിംഗുകളിൽ ധൈര്യമായി സംസാരിക്കാൻ ശീലിക്കാം.",
+    "systemInstruction": "You are Maya, simulating a team standup meeting. Ask what tasks they worked on yesterday, what they plan to do today, and if they have any blockers. Teach them polite corporate English phrases like 'Could you please clarify?', 'I was thinking maybe we could...', 'Let me follow up on this'.",
+    "starterEnglish": "Good morning team! Let's kick off our daily standup. What are you working on today, and are there any blockers?",
+    "starterMalayalam": "ഗുഡ് മോർണിംഗ്! നമുക്ക് ഇന്നത്തെ സ്റ്റാൻഡ്-അപ്പ് മീറ്റിംഗ് ആരംഭിക്കാം. ഇന്ന് എന്താണ് പ്രധാന വർക്ക്? എന്തെങ്കിലും തടസ്സങ്ങൾ നേരിടുന്നുണ്ടോ?",
+    "quickReplies": [
+      "Yesterday I completed the report.",
+      "Today I will be focusing on the client presentation.",
+      "I am facing a small issue with the database.",
+      "Could we schedule a quick call to discuss this?"
+    ]
+  },
+  {
+    "id": "airport_travel",
+    "title": "Airport & Travel (എയർപോർട്ട് & യാത്ര)",
+    "category": "Travel",
+    "icon": "✈️",
+    "level": "Beginner / Intermediate",
+    "description": "Essential English for Gulf travel, flight check-in, immigration officer questions, hotel booking, and asking directions.",
+    "malayalamDesc": "ഗൾഫിലേക്കോ വിദേശത്തേക്കോ പോകുമ്പോൾ എയർപോർട്ടിലും ഹോട്ടലിലും മറ്റും ചോദിക്കേണ്ട ഇംഗ്ലീഷ് കാര്യങ്ങൾ.",
+    "systemInstruction": "You are Maya playing an airport check-in agent or immigration officer. Speak clearly. Ask for their passport, boarding pass, purpose of travel, and luggage count. Give them tips on polite, concise English responses.",
+    "starterEnglish": "Good afternoon! May I please see your passport and flight ticket?",
+    "starterMalayalam": "നമസ്കാരം! നിങ്ങളുടെ പാസ്‌പോർട്ടും വിമാന ടിക്കറ്റും ഒന്ന് കാണിക്കാമോ?",
+    "quickReplies": [
+      "Here is my passport and ticket.",
+      "I am traveling to Dubai for work.",
+      "Could you please give me a window seat?",
+      "Where is the boarding gate for flight 402?"
+    ]
+  },
+  {
+    "id": "restaurant_shopping",
+    "title": "Cafe, Restaurant & Shopping (ഷോപ്പിംഗ് & റെസ്റ്റോറന്റ്)",
+    "category": "Daily Life",
+    "icon": "☕",
+    "level": "Beginner",
+    "description": "Ordering food, asking for bill, inquiring about sizes, discounts, and polite conversations.",
+    "malayalamDesc": "റെസ്റ്റോറന്റിൽ ഭക്ഷണം ഓർഡർ ചെയ്യാനും കടകളിൽ സാധനങ്ങൾ ചോദിച്ചു വാങ്ങാനും പരിശീലിക്കാം.",
+    "systemInstruction": "You are Maya acting as a friendly cafe barista or waiter. Ask what they would like to drink or eat. Help them practice polite ordering phrases like 'Could I get...', 'How much is this?', 'Could you please bring the bill?'.",
+    "starterEnglish": "Hi there! Welcome to Costa Cafe. What can I get started for you today?",
+    "starterMalayalam": "ഹലോ! കഫേയിലേക്ക് സ്വാഗതം. നിങ്ങൾക്ക് എന്താണ് കഴിക്കാൻ വേണ്ടത്?",
+    "quickReplies": [
+      "Could I have a cup of black coffee, please?",
+      "What is the special dish today?",
+      "Could you please bring me the bill?",
+      "Do you accept UPI or card payments?"
+    ]
+  },
+  {
+    "id": "malayalam_to_english",
+    "title": "Malayalam to English Master (മലയാളം ➜ ഇംഗ്ലീഷ്)",
+    "category": "Learning",
+    "icon": "🎓",
+    "level": "All Levels",
+    "description": "Tell Maya any sentence in Malayalam or Manglish, and she will teach you the exact, natural English way to say it!",
+    "malayalamDesc": "നിങ്ങൾക്ക് ഇംഗ്ലീഷിൽ പറയാൻ ബുദ്ധിമുട്ടുള്ള ഏത് കാര്യവും മലയാളത്തിൽ ചോദിക്കൂ, അത് ഏറ്റവും മനോഹരമായി ഇംഗ്ലീഷിൽ പറയാൻ പഠിപ്പിച്ചു തരാം.",
+    "systemInstruction": "You are Teacher Maya, the ultimate Malayalam-to-English translation and spoken mentor. When the user writes or speaks in Malayalam (or Manglish), identify the sentence, provide the natural spoken English equivalent, break down why it is used, and challenge the user to say it aloud.",
+    "starterEnglish": "What sentence or thought are you trying to say in English today? You can say it in Malayalam or Manglish, and I'll teach you the natural way to say it!",
+    "starterMalayalam": "ഇന്ന് എന്ത് കാര്യമാണ് ഇംഗ്ലീഷിൽ പറയാൻ ആഗ്രഹിക്കുന്നത്? മലയാളത്തിലോ മംഗ്ലീഷിലോ പറയൂ, നമുക്ക് അത് മനോഹരമായി ഇംഗ്ലീഷിലാക്കാം!",
+    "quickReplies": [
+      "എനിക്ക് നാളെ വരാൻ പറ്റില്ല എന്ന് എങ്ങനെ പറയും?",
+      "ഞാൻ കുറച്ച് കഴിഞ്ഞ് വിളിക്കാം എന്ന് പറയാൻ?",
+      "Enikku oru doubt undu.",
+      "How to introduce my village in English?"
+    ]
+  }
+]
