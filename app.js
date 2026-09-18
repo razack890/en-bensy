@@ -1007,7 +1007,7 @@ function startLiveCall() {
   updateLiveCallStateUI("ready");
 
   if (callAiEngineBadge) {
-    const model = tutor.getModelName ? tutor.getModelName() : "Gemini 2.0 Flash";
+    const model = tutor.getModelName ? tutor.getModelName() : "Gemini 3.6 Flash";
     callAiEngineBadge.textContent = `${model} • HD Voice`;
   }
 
@@ -1310,7 +1310,8 @@ function setupEventListeners() {
   if (testGeminiKeyBtn) {
     testGeminiKeyBtn.addEventListener("click", async () => {
       const key = geminiApiKeyInput.value.trim();
-      const model = geminiModelSelect ? geminiModelSelect.value : "gemini-2.0-flash";
+      let model = geminiModelSelect ? geminiModelSelect.value : "gemini-3.6-flash";
+      if (model === "gemini-2.0-flash") model = "gemini-3.6-flash";
       if (!key) {
         if (geminiKeyTestStatus) {
           geminiKeyTestStatus.style.color = "#f43f5e";

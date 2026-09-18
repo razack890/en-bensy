@@ -320,7 +320,9 @@ RETURN STRICT JSON ONLY:
   "conversationStarter": "Friendly English question to start a conversation about this item"
 }`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const savedModel = localStorage.getItem("talkmalayali_gemini_model");
+    const visionModel = (savedModel && savedModel !== "gemini-2.0-flash") ? savedModel : "gemini-3.6-flash";
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${visionModel}:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: "POST",

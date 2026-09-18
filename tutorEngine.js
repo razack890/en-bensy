@@ -221,7 +221,12 @@ const SUBJECT_KNOWLEDGE_BASE = [
 class TutorEngine {
   constructor() {
     this.apiKey = localStorage.getItem("talkmalayali_gemini_key") || "";
-    this.modelName = localStorage.getItem("talkmalayali_gemini_model") || "gemini-2.0-flash";
+    let storedModel = localStorage.getItem("talkmalayali_gemini_model");
+    if (storedModel === "gemini-2.0-flash") {
+      storedModel = "gemini-3.6-flash";
+      localStorage.setItem("talkmalayali_gemini_model", storedModel);
+    }
+    this.modelName = storedModel || "gemini-3.6-flash";
     this.currentScenarioId = "any_subject";
     this.customSubject = localStorage.getItem("talkmalayali_custom_subject") || "Any Topic";
     this.history = [];
@@ -242,7 +247,7 @@ class TutorEngine {
   }
 
   setModelName(model) {
-    this.modelName = model || "gemini-2.0-flash";
+    this.modelName = (model && model !== "gemini-2.0-flash") ? model : "gemini-3.6-flash";
     localStorage.setItem("talkmalayali_gemini_model", this.modelName);
   }
 
@@ -253,11 +258,14 @@ class TutorEngine {
   /**
    * Test Gemini API connection and measure latency
    */
-  async testApiKey(testKey, model = "gemini-2.0-flash") {
+  async testApiKey(testKey, model = "gemini-3.6-flash") {
     const key = testKey ? testKey.trim() : this.apiKey;
     if (!key) throw new Error("Please enter your Gemini API key first.");
     
-    const targetModel = model || this.modelName;
+    let targetModel = model || this.modelName;
+    if (targetModel === "gemini-2.0-flash") {
+      targetModel = "gemini-3.6-flash";
+    }
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${targetModel}:generateContent?key=${key}`;
     const startTime = performance.now();
 
