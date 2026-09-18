@@ -3,7 +3,7 @@
  * Ensures full app functionality, offline spoken practice, cached audio/lessons, and instant loading.
  */
 
-const CACHE_NAME = 'samsaaram-ai-pwa-v2';
+const CACHE_NAME = 'samsaaram-ai-pwa-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
