@@ -28,6 +28,7 @@ const state = {
   isSpeaking: false,
   isLiveCallMode: false,
   isContinuousHandsFree: localStorage.getItem("talkmalayali_hands_free") !== "false",
+  voiceEngine: localStorage.getItem("talkmalayali_voice_engine") || "neural",
   speechRate: parseFloat(localStorage.getItem("talkmalayali_speech_rate") || "0.9"),
   voiceAccent: localStorage.getItem("talkmalayali_voice_accent") || "en-IN",
   recognition: null,
@@ -118,6 +119,7 @@ const cancelSettingsBtn = document.getElementById("cancelSettingsBtn");
 const saveSettingsBtn = document.getElementById("saveSettingsBtn");
 const geminiApiKeyInput = document.getElementById("geminiApiKeyInput");
 const learnerLevelSelect = document.getElementById("learnerLevelSelect");
+const voiceEngineSelect = document.getElementById("voiceEngineSelect");
 const voiceAccentSelect = document.getElementById("voiceAccentSelect");
 const speechRateSlider = document.getElementById("speechRateSlider");
 const speechRateLabel = document.getElementById("speechRateLabel");
@@ -389,23 +391,100 @@ function pickBestVoice() {
   state.selectedVoice = voice || state.availableVoices[0];
 }
 
-function speakCurrentText(text, customRate = null) {
-  if (!("speechSynthesis" in window) || !text) return;
+let currentAudioElement = null;
+let audioPlayId = 0;
 
-  window.speechSynthesis.cancel();
+function splitTextIntoAudioChunks(text, maxLength = 160) {
+  // Break text into natural sentences or conversational phrases
+  const sentences = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [text];
+  const chunks = [];
+
+  for (let s of sentences) {
+    s = s.trim();
+    if (!s) continue;
+    if (s.length <= maxLength) {
+      chunks.push(s);
+    } else {
+      const words = s.split(/\s+/);
+      let current = "";
+      for (const word of words) {
+        if ((current + " " + word).trim().length <= maxLength) {
+          current = (current + " " + word).trim();
+        } else {
+          if (current) chunks.push(current);
+          current = word;
+        }
+      }
+      if (current) chunks.push(current);
+    }
+  }
+
+  return chunks.length ? chunks : [text.slice(0, maxLength)];
+}
+
+function playNeuralAudioChunks(chunks, lang = "en", customRate = null, onStart, onComplete, onError) {
+  const thisPlayId = ++audioPlayId;
+  let index = 0;
+  let hasStarted = false;
+
+  function playNext() {
+    if (thisPlayId !== audioPlayId) return; // Cancelled
+    if (index >= chunks.length) {
+      if (onComplete) onComplete();
+      return;
+    }
+
+    const chunk = chunks[index++];
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${encodeURIComponent(lang)}&client=tw-ob&q=${encodeURIComponent(chunk)}`;
+
+    if (currentAudioElement) {
+      try { currentAudioElement.pause(); } catch (e) {}
+      currentAudioElement = null;
+    }
+
+    const audio = new Audio(url);
+    currentAudioElement = audio;
+
+    const rate = customRate || state.speechRate || 1.0;
+    audio.playbackRate = Math.min(Math.max(rate, 0.7), 1.3);
+
+    audio.onplay = () => {
+      if (!hasStarted) {
+        hasStarted = true;
+        if (onStart) onStart();
+      }
+    };
+
+    audio.onended = () => {
+      if (thisPlayId !== audioPlayId) return;
+      playNext();
+    };
+
+    audio.onerror = (err) => {
+      console.warn("Google Neural audio failed for chunk, falling back:", err);
+      if (onError) onError();
+    };
+
+    audio.play().catch(err => {
+      console.warn("Google Neural audio autoplay error, falling back:", err);
+      if (onError) onError();
+    });
+  }
+
+  playNext();
+}
+
+function speakCurrentText(text, customRate = null) {
+  if (!text) return;
+
+  // Cancel any ongoing audio and speech
+  stopSpeaking();
 
   // Strip Malayalam scripts and emojis for clear English pronunciation
   const cleanEnglish = text.replace(/[\u0D00-\u0D7F]/g, "").replace(/[^\w\s.,!?'"-]/gi, " ").trim();
   if (!cleanEnglish) return;
 
-  const utterance = new SpeechSynthesisUtterance(cleanEnglish);
-  if (state.selectedVoice) {
-    utterance.voice = state.selectedVoice;
-  }
-  utterance.rate = customRate || state.speechRate || 0.9;
-  utterance.pitch = 1.05; // Slightly warmer pitch
-
-  utterance.onstart = () => {
+  const onSpeechStart = () => {
     state.isSpeaking = true;
     teacherCard.classList.add("is-speaking");
     tutorStatusText.textContent = "Teacher Maya is Speaking...";
@@ -414,7 +493,7 @@ function speakCurrentText(text, customRate = null) {
     updateLiveCallStateUI("speaking");
   };
 
-  utterance.onend = () => {
+  const onSpeechEnd = () => {
     stopSpeaking();
     // Continuous Hands-Free Talk: Automatically listen when Teacher Maya finishes speaking!
     if (state.isContinuousHandsFree && (!state.isCallMuted || !state.isLiveCallMode)) {
@@ -431,6 +510,51 @@ function speakCurrentText(text, customRate = null) {
     }
   };
 
+  // If user selected Neural Voice (Default)
+  if (state.voiceEngine !== "system") {
+    const chunks = splitTextIntoAudioChunks(cleanEnglish);
+
+    let ttsLang = "en";
+    if (state.voiceAccent === "en-IN") ttsLang = "en-IN";
+    else if (state.voiceAccent === "en-GB") ttsLang = "en-GB";
+    else if (state.voiceAccent === "en-US") ttsLang = "en";
+
+    playNeuralAudioChunks(
+      chunks,
+      ttsLang,
+      customRate,
+      onSpeechStart,
+      onSpeechEnd,
+      () => {
+        // Fallback to local SpeechSynthesis if network issue or blocked
+        speakWithSpeechSynthesis(cleanEnglish, customRate, onSpeechStart, onSpeechEnd);
+      }
+    );
+  } else {
+    // Local device SpeechSynthesis
+    speakWithSpeechSynthesis(cleanEnglish, customRate, onSpeechStart, onSpeechEnd);
+  }
+}
+
+function speakWithSpeechSynthesis(cleanEnglish, customRate, onStart, onEnd) {
+  if (!("speechSynthesis" in window) || !cleanEnglish) return;
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(cleanEnglish);
+  if (state.selectedVoice) {
+    utterance.voice = state.selectedVoice;
+  }
+  utterance.rate = customRate || state.speechRate || 0.9;
+  utterance.pitch = 1.0; // Warm, natural human pitch (no metallic chipmunk tone)
+
+  utterance.onstart = () => {
+    if (onStart) onStart();
+  };
+
+  utterance.onend = () => {
+    if (onEnd) onEnd();
+  };
+
   utterance.onerror = () => {
     stopSpeaking();
   };
@@ -439,6 +563,17 @@ function speakCurrentText(text, customRate = null) {
 }
 
 function stopSpeaking() {
+  audioPlayId++;
+  if (currentAudioElement) {
+    try {
+      currentAudioElement.pause();
+      currentAudioElement.currentTime = 0;
+    } catch (e) {}
+    currentAudioElement = null;
+  }
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
   state.isSpeaking = false;
   teacherCard.classList.remove("is-speaking");
   tutorStatusText.textContent = "Ready to Talk";
@@ -1301,6 +1436,7 @@ function setupEventListeners() {
     if (geminiModelSelect) geminiModelSelect.value = tutor.getModelName();
     if (geminiKeyTestStatus) geminiKeyTestStatus.textContent = "";
     learnerLevelSelect.value = tutor.userLevel;
+    if (voiceEngineSelect) voiceEngineSelect.value = state.voiceEngine || "neural";
     voiceAccentSelect.value = state.voiceAccent;
     speechRateSlider.value = state.speechRate;
     speechRateLabel.textContent = `${state.speechRate}x`;
@@ -1348,6 +1484,10 @@ function setupEventListeners() {
     tutor.setApiKey(geminiApiKeyInput.value);
     if (geminiModelSelect) tutor.setModelName(geminiModelSelect.value);
     tutor.setUserLevel(learnerLevelSelect.value);
+    if (voiceEngineSelect) {
+      state.voiceEngine = voiceEngineSelect.value;
+      localStorage.setItem("talkmalayali_voice_engine", state.voiceEngine);
+    }
     state.voiceAccent = voiceAccentSelect.value;
     state.speechRate = parseFloat(speechRateSlider.value);
     localStorage.setItem("talkmalayali_voice_accent", state.voiceAccent);
